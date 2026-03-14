@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Dashboard — Nuevos Logos 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --bg: #0f0f11;
+    --bg2: #16161a;
+    --bg3: #1e1e24;
+    --bg4: #252530;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f0f4;
+    --text2: #8888a0;
+    --text3: #555568;
+    --green: #2dca8c;
+    --green-bg: rgba(45,202,140,0.1);
+    --amber: #f5a623;
+    --amber-bg: rgba(245,166,35,0.1);
+    --red: #e05c5c;
+    --red-bg: rgba(224,92,92,0.1);
+    --blue: #5b8def;
+    --blue-bg: rgba(91,141,239,0.1);
+    --purple: #9b7ff5;
+    --purple-bg: rgba(155,127,245,0.1);
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* LOGIN */
+  #login-screen {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 2rem;
+    background: var(--bg);
+  }
+  .login-card {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 420px;
+  }
+  .login-logo { font-size: 13px; font-weight: 500; color: var(--text2); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 2rem; }
+  .login-title { font-size: 22px; font-weight: 600; margin-bottom: .5rem; }
+  .login-sub { font-size: 14px; color: var(--text2); margin-bottom: 2rem; line-height: 1.6; }
+  .login-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; display: block; letter-spacing: .04em; text-transform: uppercase; }
+  .login-input {
+    width: 100%; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 8px; padding: 11px 14px; font-size: 13px; font-family: var(--mono);
+    color: var(--text); outline: none; letter-spacing: .04em;
+    transition: border-color .2s;
+  }
+  .login-input:focus { border-color: var(--blue); }
+  .login-btn {
+    width: 100%; margin-top: 1rem; background: var(--blue); border: none;
+    border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 500;
+    font-family: var(--font); color: #fff; cursor: pointer; transition: opacity .2s;
+  }
+  .login-btn:hover { opacity: .85; }
+  .login-note { font-size: 11px; color: var(--text3); margin-top: .75rem; text-align: center; }
+  .login-error { font-size: 12px; color: var(--red); margin-top: .5rem; display: none; }
+
+  /* DASHBOARD */
+  #dashboard { display: none; }
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,15,17,.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 56px;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 1.5rem; }
+  .brand { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text); }
+  .live-badge { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--green); }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .date-label { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+  .refresh-btn {
+    background: var(--bg3); border: 1px solid var(--border2); border-radius: 6px;
+    padding: 5px 12px; font-size: 12px; color: var(--text2); cursor: pointer;
+    font-family: var(--font); transition: all .2s;
+  }
+  .refresh-btn:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
+
+  .main { max-width: 1280px; margin: 0 auto; padding: 2rem; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 2px; margin-bottom: 1.75rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; width: fit-content; }
+  .tab { font-size: 13px; padding: 6px 18px; border-radius: 7px; cursor: pointer; color: var(--text2); background: transparent; border: none; font-family: var(--font); transition: all .2s; }
+  .tab.active { background: var(--bg4); color: var(--text); font-weight: 500; }
+  .view { display: none; } .view.active { display: block; }
+
+  /* METRICS */
+  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .mc { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; }
+  .mc-lbl { font-size: 11px; color: var(--text3); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .06em; }
+  .mc-val { font-size: 22px; font-weight: 600; }
+  .mc-sub { font-size: 11px; margin-top: 4px; color: var(--text2); }
+
+  /* SECTION */
+  .section { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .sec-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 1.1rem; letter-spacing: .02em; }
+
+  /* Q GRID */
+  .q-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .q-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: .9rem 1rem; }
+  .q-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .q-val { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+  .q-sub { font-size: 11px; color: var(--text2); margin-bottom: 8px; }
+  .q-bar-bg { background: var(--bg4); border-radius: 3px; height: 4px; }
+  .q-bar-fill { height: 4px; border-radius: 3px; transition: width .6s ease; }
+
+  /* ANNUAL BAR */
+  .annual-bar-wrap { margin-top: 1rem; }
+  .annual-bar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); font-family: var(--mono); margin-bottom: 4px; }
+  .annual-bar-bg { background: var(--bg4); border-radius: 6px; height: 16px; position: relative; overflow: visible; }
+  .annual-bar-fill { height: 16px; border-radius: 6px; background: var(--blue); transition: width .8s ease; }
+  .annual-bar-marker { position: absolute; top: -6px; height: 28px; width: 1.5px; border-radius: 1px; opacity: .5; }
+  .annual-bar-ticks { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); font-family: var(--mono); margin-top: 5px; }
+
+  /* PROGRESS ROWS */
+  .prog-row { margin-bottom: 16px; }
+  .prog-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+  .prog-name { font-size: 13px; font-weight: 500; }
+  .prog-nums { font-size: 12px; color: var(--text2); font-family: var(--mono); }
+  .prog-bg { background: var(--bg4); border-radius: 4px; height: 8px; position: relative; }
+  .prog-fill { height: 8px; border-radius: 4px; transition: width .6s ease; }
+  .prog-marker { position: absolute; top: -5px; height: 18px; width: 2px; border-radius: 1px; background: rgba(224,92,92,.5); }
+  .prog-hint { font-size: 10px; color: var(--text3); margin-top: 3px; text-align: right; }
+
+  /* TABLES */
+  .rtbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .rtbl th { font-size: 10px; color: var(--text3); text-align: right; padding: 0 8px 10px; font-weight: 400; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+  .rtbl th:first-child { text-align: left; }
+  .rtbl td { padding: 8px 8px; color: var(--text2); text-align: right; border-top: 1px solid var(--border); vertical-align: middle; }
+  .rtbl td:first-child { text-align: left; font-weight: 500; color: var(--text); }
+  .rtbl .tot td { font-weight: 600; color: var(--text); border-top: 1px solid var(--border2); background: var(--bg3); }
+  .sqo-cell { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+  .sqo-n { font-size: 13px; font-weight: 500; color: var(--text); }
+  .sqo-v { font-size: 10px; color: var(--text3); font-family: var(--mono); }
+
+  .dtbl { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  .dtbl th { font-size: 10px; color: var(--text3); padding: 0 10px 10px; text-align: left; font-weight: 400; text-transform: uppercase; letter-spacing: .05em; }
+  .dtbl td { padding: 8px 10px; border-top: 1px solid var(--border); color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dtbl .tot td { font-weight: 600; color: var(--text); border-top: 1px solid var(--border2); background: var(--bg3); }
+
+  /* PILLS */
+  .pill { font-size: 10px; padding: 2px 8px; border-radius: 20px; display: inline-block; font-weight: 500; }
+  .pill-v { background: var(--purple-bg); color: var(--purple); }
+  .pill-g { background: var(--green-bg); color: var(--green); }
+  .pill-a { background: var(--amber-bg); color: var(--amber); }
+  .att-pill { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+
+  /* GRID 2 */
+  .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-bottom: 1.25rem; }
+
+  /* INSIGHTS */
+  .ins { border-radius: 8px; padding: .75rem 1rem; margin-bottom: 8px; font-size: 13px; line-height: 1.6; }
+
+  /* LEGEND */
+  .leg { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+  .leg-i { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text2); }
+  .leg-d { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* LOADING */
+  #loading { display: none; align-items: center; justify-content: center; min-height: 60vh; flex-direction: column; gap: 1rem; }
+  .spinner { width: 32px; height: 32px; border: 2px solid var(--border2); border-top-color: var(--blue); border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 768px) {
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .q-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+    .main { padding: 1rem; }
+    .topbar { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Legalario · Sales</div>
+    <h1 class="login-title">Dashboard de ventas</h1>
+    <p class="login-sub">Ingresa tu token de HubSpot para cargar los datos en vivo de nuevos logos 2026.</p>
+    <label class="login-label">Token HubSpot Private App</label>
+    <input type="password" id="token-input" class="login-input" placeholder="pat-na1-xxxxxxxxxxxx" autocomplete="off" />
+    <p class="login-error" id="login-error">Token inválido o sin permisos. Verifica tu Private App.</p>
+    <button class="login-btn" onclick="connect()">Conectar y cargar datos</button>
+    <p class="login-note">El token no se almacena — solo se usa en esta sesión.</p>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="spinner"></div>
+  <p style="font-size:13px;color:var(--text2);">Cargando datos desde HubSpot...</p>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="brand">Legalario Sales</span>
+      <span class="live-badge"><span class="live-dot"></span>HubSpot en vivo</span>
+    </div>
+    <div class="topbar-right">
+      <span class="date-label" id="date-label"></span>
+      <button class="refresh-btn" onclick="loadData()">↻ Actualizar</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('general')">General</div>
+      <div class="tab" onclick="switchTab('reps')">Por AE</div>
+      <div class="tab" onclick="switchTab('forecast')">Forecast</div>
+      <div class="tab" onclick="switchTab('okr')">OKR Pipeline</div>
+    </div>
+
+    <!-- GENERAL -->
+    <div id="view-general" class="view active">
+      <div class="metrics">
+        <div class="mc"><div class="mc-lbl">Meta anual</div><div class="mc-val">$12.0M</div><div class="mc-sub">New logos 2026</div></div>
+        <div class="mc"><div class="mc-lbl">Vendido al momento</div><div class="mc-val" id="g-cw" style="color:var(--amber);">—</div><div class="mc-sub" id="g-att-yr"></div></div>
+        <div class="mc"><div class="mc-lbl">Forecast (Verbal)</div><div class="mc-val" id="g-forecast" style="color:var(--purple);">—</div><div class="mc-sub" id="g-cwf"></div></div>
+        <div class="mc"><div class="mc-lbl">Pipeline total</div><div class="mc-val" id="g-pipe">—</div><div class="mc-sub" id="g-cov"></div></div>
+      </div>
+
+      <div class="section">
+        <p class="sec-title">Meta anual $12M — attainment por Q</p>
+        <div class="q-grid" id="q-cards"></div>
+        <div class="annual-bar-wrap">
+          <div class="annual-bar-labels">
+            <span id="ab-left">Acumulado: —</span>
+            <span id="ab-right" style="color:var(--amber);">—</span>
+          </div>
+          <div class="annual-bar-bg">
+            <div class="annual-bar-fill" id="ab-fill" style="width:0%;"></div>
+            <div class="annual-bar-marker" style="left:25%;background:var(--red);"></div>
+            <div class="annual-bar-marker" style="left:50%;background:var(--red);"></div>
+            <div class="annual-bar-marker" style="left:75%;background:var(--red);"></div>
+          </div>
+          <div class="annual-bar-ticks"><span>$0</span><span>Q1 $3M</span><span>Q2 $6M</span><span>Q3 $9M</span><span>$12M</span></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <p class="sec-title">Vendido al momento por AE — vs meta anual</p>
+        <div id="general-prog"></div>
+      </div>
+
+      <div class="grid2">
+        <div class="section" style="margin-bottom:0;">
+          <p class="sec-title">CW + Forecast por AE</p>
+          <div style="position:relative;height:190px;"><canvas id="cwForecastChart"></canvas></div>
+          <div class="leg">
+            <span class="leg-i"><span class="leg-d" style="background:var(--green);"></span>Close Won</span>
+            <span class="leg-i"><span class="leg-d" style="background:var(--purple);"></span>Forecast (Verbal)</span>
+          </div>
+        </div>
+        <div class="section" style="margin-bottom:0;">
+          <p class="sec-title">Distribución pipeline</p>
+          <div style="position:relative;height:190px;"><canvas id="pipeDonut"></canvas></div>
+          <div class="leg">
+            <span class="leg-i"><span class="leg-d" style="background:var(--blue);"></span>SQO</span>
+            <span class="leg-i"><span class="leg-d" style="background:var(--amber);"></span>Negotiation</span>
+            <span class="leg-i"><span class="leg-d" style="background:var(--purple);"></span>Verbal</span>
+            <span class="leg-i"><span class="leg-d" style="background:var(--green);"></span>CW</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POR AE -->
+    <div id="view-reps" class="view">
+      <div class="section">
+        <p class="sec-title">Resumen por AE — Q1 y anual</p>
+        <div style="overflow-x:auto;">
+          <table class="rtbl">
+            <thead><tr>
+              <th style="text-align:left;">AE</th>
+              <th>Meta Q1</th><th>CW Q1</th><th>ATT% Q1</th>
+              <th>SQOs Q1</th><th>Pipe total</th>
+              <th>Meta anual</th><th>ATT% anual</th>
+            </tr></thead>
+            <tbody id="reps-tbl"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="section">
+        <p class="sec-title">Pipeline activo por AE — número y valor de SQOs</p>
+        <div style="overflow-x:auto;">
+          <table class="rtbl">
+            <thead><tr>
+              <th style="text-align:left;">AE</th>
+              <th>SQOs</th><th>Negotiation</th><th>Verbal</th><th>CW 2026</th><th>Total pipe</th>
+            </tr></thead>
+            <tbody id="pipe-tbl"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORECAST -->
+    <div id="view-forecast" class="view">
+      <div class="metrics">
+        <div class="mc"><div class="mc-lbl">Forecast total</div><div class="mc-val" id="f-total" style="color:var(--purple);">—</div><div class="mc-sub">Verbal Commitment</div></div>
+        <div class="mc"><div class="mc-lbl">CW + Forecast</div><div class="mc-val" id="f-cwf" style="color:var(--green);">—</div><div class="mc-sub" id="f-cwf-pct"></div></div>
+        <div class="mc"><div class="mc-lbl">Deals en forecast</div><div class="mc-val" id="f-count">—</div><div class="mc-sub">En Verbal Commitment</div></div>
+        <div class="mc"><div class="mc-lbl">Ticket promedio</div><div class="mc-val" id="f-avg">—</div><div class="mc-sub">Por deal en Verbal</div></div>
+      </div>
+      <div class="section">
+        <p class="sec-title">Deals en Verbal Commitment</p>
+        <table class="dtbl">
+          <thead><tr><th style="width:36%;">Deal</th><th style="width:14%;text-align:right;">ARR</th><th style="width:12%;text-align:center;">Stage</th><th style="width:16%;">AE</th><th style="width:22%;text-align:right;">Impacto ATT% anual</th></tr></thead>
+          <tbody id="forecast-tbl"></tbody>
+          <tfoot id="forecast-foot"></tfoot>
+        </table>
+      </div>
+      <div class="section">
+        <p class="sec-title">Forecast por AE</p>
+        <div style="position:relative;height:200px;"><canvas id="forecastChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- OKR -->
+    <div id="view-okr" class="view">
+      <div class="metrics">
+        <div class="mc"><div class="mc-lbl">SQOs generados Q1</div><div class="mc-val" id="o-sqos">—</div><div class="mc-sub">Nuevas opps desde 1 ene</div></div>
+        <div class="mc"><div class="mc-lbl">ARR nuevo Q1</div><div class="mc-val" id="o-arr" style="color:var(--blue);">—</div><div class="mc-sub">Valor opps creadas en Q1</div></div>
+        <div class="mc"><div class="mc-lbl">Pipeline total activo</div><div class="mc-val" id="o-pipe">—</div><div class="mc-sub">All stages vigentes</div></div>
+        <div class="mc"><div class="mc-lbl">Ticket promedio SQO</div><div class="mc-val" id="o-avg">—</div><div class="mc-sub">Por opp nueva Q1</div></div>
+      </div>
+      <div class="section">
+        <p class="sec-title">SQOs Q1 por AE — número y valor ARR</p>
+        <div style="overflow-x:auto;">
+          <table class="rtbl">
+            <thead><tr>
+              <th style="text-align:left;">AE</th>
+              <th># SQOs Q1</th><th>ARR generado Q1</th><th>Ticket prom.</th><th>Pipeline total activo</th>
+            </tr></thead>
+            <tbody id="okr-tbl"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="section" style="margin-bottom:0;">
+          <p class="sec-title"># SQOs por AE — Q1</p>
+          <div style="position:relative;height:180px;"><canvas id="sqoCountChart"></canvas></div>
+        </div>
+        <div class="section" style="margin-bottom:0;">
+          <p class="sec-title">ARR generado por AE — Q1</p>
+          <div style="position:relative;height:180px;"><canvas id="sqoArrChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const OWNER_MAP = {
+  '38239642':  'Ernesto',
+  '372683861': 'Karla',
+  '79533376':  'Rossana',
+  '392741743': 'Diego',
+  '480423184': 'Ilse',
+};
+const METAS_ANUAL = { Ernesto:5200000, Karla:4400000, Rossana:3000000, Ilse:2600000 };
+const METAS_Q1    = { Ernesto:1300000, Karla:1100000, Rossana:750000,  Ilse:650000  };
+const META_EQUIPO_Q1 = 3000000;
+const META_EQUIPO_ANUAL = 12000000;
+const STAGE_SQO   = '69056624';
+const STAGE_NEG   = '69056625';
+const STAGE_VERB  = '69038107';
+const STAGE_CW1   = '69056626';
+const STAGE_CW2   = '155228448';
+const OWNER_IDS   = Object.keys(OWNER_MAP);
+
+let TOKEN = '';
+let charts = {};
+
+const fmt  = n => n >= 1000000 ? '$' + (n/1000000).toFixed(2) + 'M' : '$' + (n/1000).toFixed(0) + 'K';
+const fmtP = n => Math.round(n) + '%';
+const ac   = p => p >= 70 ? 'var(--green)' : p >= 30 ? 'var(--amber)' : 'var(--red)';
+const acBg = p => p >= 70 ? 'var(--green-bg)' : p >= 30 ? 'var(--amber-bg)' : 'var(--red-bg)';
+
+function attPill(p, label) {
+  return `<span class="att-pill" style="background:${acBg(p)};color:${ac(p)};">${label}</span>`;
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['general','reps','forecast','okr'][i] === id));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + id));
+}
+
+// ─── AUTH ─────────────────────────────────────────────────
+async function connect() {
+  const val = document.getElementById('token-input').value.trim();
+  if (!val.startsWith('pat-')) {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('login-error').textContent = 'El token debe comenzar con pat-';
+    return;
+  }
+  TOKEN = val;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('loading').style.display = 'flex';
+  await loadData();
+}
+
+// ─── FETCH ────────────────────────────────────────────────
+async function hs(path, body) {
+  const PROXY = 'https://proxy.cors.sh/';
+  const res = await fetch(PROXY + 'https://api.hubapi.com' + path, {
+    method: body ? 'POST' : 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + TOKEN,
+      'Content-Type': 'application/json',
+      'x-cors-api-key': 'temp_' + Math.random().toString(36).substr(2,9),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!res.ok) throw new Error('HubSpot ' + res.status);
+  return res.json();
+}
+
+async function fetchDeals(stages, extraFilters = []) {
+  let all = [], after = null, pages = 0;
+  while (pages < 20) {
+    const body = {
+      filterGroups: [{ filters: [
+        { propertyName: 'tipo_de_cuenta', operator: 'EQ', value: 'New Logo' },
+        { propertyName: 'dealstage', operator: 'IN', values: stages },
+        { propertyName: 'hubspot_owner_id', operator: 'IN', values: OWNER_IDS },
+        ...extraFilters,
+      ]}],
+      properties: ['dealname','amount','dealstage','hubspot_owner_id','closedate','createdate'],
+      limit: 100,
+      ...(after ? { after } : {})
+    };
+    const d = await hs('/crm/v3/objects/deals/search', body);
+    all = all.concat(d.results || []);
+    if (d.paging?.next?.after) { after = d.paging.next.after; pages++; } else break;
+  }
+  return all;
+}
+
+// ─── LOAD ─────────────────────────────────────────────────
+async function loadData() {
+  try {
+    // 1. CW this year (closedate in 2026)
+    const cwDeals = await fetchDeals([STAGE_CW1, STAGE_CW2], [
+      { propertyName: 'closedate', operator: 'GTE', value: '2026-01-01' },
+      { propertyName: 'closedate', operator: 'LTE', value: '2026-12-31' },
+    ]);
+    // 2. Active pipeline (SQO, NEG, VERBAL)
+    const pipeDeals = await fetchDeals([STAGE_SQO, STAGE_NEG, STAGE_VERB]);
+    // 3. SQOs created in Q1 2026
+    const sqoQ1 = await fetchDeals([STAGE_SQO, STAGE_NEG, STAGE_VERB, STAGE_CW1, STAGE_CW2], [
+      { propertyName: 'createdate', operator: 'GTE', value: '2026-01-01' },
+    ]);
+
+    buildDashboard(cwDeals, pipeDeals, sqoQ1);
+  } catch(e) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('login-error').textContent = 'Error al cargar: ' + e.message;
+  }
+}
+
+// ─── BUILD ────────────────────────────────────────────────
+function buildDashboard(cwDeals, pipeDeals, sqoQ1Deals) {
+  const names = ['Ernesto','Karla','Rossana','Diego','Ilse'];
+
+  // Aggregate CW per rep per quarter
+  const cw = {}; names.forEach(n => { cw[n] = {q1:0,q2:0,q3:0,q4:0,total:0}; });
+  cwDeals.forEach(d => {
+    const owner = OWNER_MAP[d.properties.hubspot_owner_id];
+    if (!owner) return;
+    const amt = parseFloat(d.properties.amount || 0);
+    const mo  = new Date(d.properties.closedate).getMonth(); // 0-indexed
+    const q   = mo < 3 ? 'q1' : mo < 6 ? 'q2' : mo < 9 ? 'q3' : 'q4';
+    cw[owner][q]    += amt;
+    cw[owner].total += amt;
+  });
+
+  // Aggregate pipeline per rep
+  const pipe = {}; names.forEach(n => { pipe[n] = {sqo:0,sqo_count:0,neg:0,verb:0}; });
+  pipeDeals.forEach(d => {
+    const owner = OWNER_MAP[d.properties.hubspot_owner_id];
+    if (!owner) return;
+    const amt = parseFloat(d.properties.amount || 0);
+    const st  = d.properties.dealstage;
+    if (st === STAGE_SQO)  { pipe[owner].sqo += amt; pipe[owner].sqo_count++; }
+    if (st === STAGE_NEG)  pipe[owner].neg  += amt;
+    if (st === STAGE_VERB) pipe[owner].verb += amt;
+  });
+
+  // SQOs created Q1
+  const sqoQ1 = {}; names.forEach(n => { sqoQ1[n] = {count:0,arr:0}; });
+  sqoQ1Deals.forEach(d => {
+    const owner = OWNER_MAP[d.properties.hubspot_owner_id];
+    if (!owner) return;
+    const amt = parseFloat(d.properties.amount || 0);
+    sqoQ1[owner].count++;
+    sqoQ1[owner].arr += amt;
+  });
+
+  // Verbal deals list
+  const verbalDeals = pipeDeals.filter(d => d.properties.dealstage === STAGE_VERB).map(d => ({
+    name: d.properties.dealname,
+    arr:  parseFloat(d.properties.amount || 0),
+    ae:   OWNER_MAP[d.properties.hubspot_owner_id] || '—',
+  })).sort((a,b) => b.arr - a.arr);
+
+  // ── Totals ──
+  const totalCwQ1      = names.reduce((a,n) => a + cw[n].q1, 0);
+  const totalCw        = names.reduce((a,n) => a + cw[n].total, 0);
+  const totalForecast  = names.reduce((a,n) => a + pipe[n].verb, 0);
+  const totalSqo       = names.reduce((a,n) => a + pipe[n].sqo, 0);
+  const totalNeg       = names.reduce((a,n) => a + pipe[n].neg, 0);
+  const totalPipe      = totalSqo + totalNeg + totalForecast;
+  const totalSqoQ1c    = names.reduce((a,n) => a + sqoQ1[n].count, 0);
+  const totalSqoQ1arr  = names.reduce((a,n) => a + sqoQ1[n].arr, 0);
+  const attQ1          = Math.round((totalCwQ1 / META_EQUIPO_Q1) * 100);
+  const attAnual       = Math.round((totalCw / META_EQUIPO_ANUAL) * 100);
+
+  // ── GENERAL ──
+  document.getElementById('g-cw').textContent      = fmt(totalCw);
+  document.getElementById('g-cw').style.color      = ac(attAnual);
+  document.getElementById('g-att-yr').innerHTML    = `<span style="color:${ac(attAnual)};">${fmtP(attAnual)} del año</span>`;
+  document.getElementById('g-forecast').textContent = fmt(totalForecast);
+  document.getElementById('g-cwf').innerHTML       = `CW+F = <strong>${fmt(totalCw+totalForecast)}</strong> (${fmtP(Math.round((totalCw+totalForecast)/META_EQUIPO_ANUAL*100))})`;
+  document.getElementById('g-pipe').textContent    = fmt(totalPipe);
+  document.getElementById('g-cov').innerHTML       = `<span style="color:var(--green);">Cobertura ${(totalPipe/META_EQUIPO_ANUAL).toFixed(1)}x meta anual</span>`;
+
+  // Q cards
+  const qData = [
+    { label:'Q1 · Ene–Mar', val: totalCwQ1, meta: META_EQUIPO_Q1, active: true },
+    { label:'Q2 · Abr–Jun', val: names.reduce((a,n)=>a+cw[n].q2,0), meta: META_EQUIPO_Q1 },
+    { label:'Q3 · Jul–Sep', val: names.reduce((a,n)=>a+cw[n].q3,0), meta: META_EQUIPO_Q1 },
+    { label:'Q4 · Oct–Dic', val: names.reduce((a,n)=>a+cw[n].q4,0), meta: META_EQUIPO_Q1 },
+  ];
+  document.getElementById('q-cards').innerHTML = qData.map((q,i) => {
+    const att = Math.round((q.val/q.meta)*100);
+    const color = q.val > 0 ? ac(att) : 'var(--text3)';
+    return `<div class="q-card" style="${!q.active&&q.val===0?'opacity:.5':''}">
+      <div class="q-label">Q${i+1} · ${['Ene–Mar','Abr–Jun','Jul–Sep','Oct–Dic'][i]}</div>
+      <div class="q-val" style="color:${color};">${q.val > 0 ? fmt(q.val) : '—'}</div>
+      <div class="q-sub" style="color:${color};">${q.val > 0 ? fmtP(att)+' de '+fmt(q.meta) : 'Meta '+fmt(q.meta)}</div>
+      <div class="q-bar-bg"><div class="q-bar-fill" style="width:${q.val>0?Math.min(att,100):0}%;background:${color};"></div></div>
+    </div>`;
+  }).join('');
+
+  // Annual bar
+  const pctAnnual = Math.min(Math.round((totalCw/META_EQUIPO_ANUAL)*100), 100);
+  document.getElementById('ab-fill').style.width = pctAnnual + '%';
+  document.getElementById('ab-left').textContent = `Acumulado: ${fmt(totalCw)}`;
+  document.getElementById('ab-right').textContent = fmtP(attAnual) + ' de $12M';
+  document.getElementById('ab-right').style.color = ac(attAnual);
+
+  // General progress
+  const gp = document.getElementById('general-prog');
+  gp.innerHTML = '';
+  names.forEach(n => {
+    const meta = METAS_ANUAL[n];
+    const val  = cw[n].total;
+    const pct  = meta ? Math.round((val/meta)*100) : null;
+    const q1pct = meta && METAS_Q1[n] ? Math.round((METAS_Q1[n]/meta)*100) : null;
+    const exited = n === 'Diego', ramp = n === 'Ilse';
+    const badge = exited ? '<span style="font-size:10px;background:var(--bg4);color:var(--text3);padding:1px 7px;border-radius:10px;margin-left:5px;">salió</span>' :
+                  ramp   ? '<span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 7px;border-radius:10px;margin-left:5px;">rampa</span>' : '';
+    gp.innerHTML += `<div class="prog-row">
+      <div class="prog-top">
+        <span class="prog-name">${n}${badge}</span>
+        <span class="prog-nums">${fmt(val)} vendido · ${meta?fmt(meta):'—'} meta · <span style="color:${pct!==null?ac(pct):'var(--text3)'};">${pct!==null?fmtP(pct):''}</span></span>
+      </div>
+      <div class="prog-bg">
+        <div class="prog-fill" style="width:${pct?Math.min(pct,100):0}%;background:${pct!==null?ac(pct):'#555'};"></div>
+        ${q1pct?`<div class="prog-marker" style="left:${q1pct}%;"></div>`:''}
+      </div>
+      <div class="prog-hint">La línea marca dónde deberías estar al cierre de Q1</div>
+    </div>`;
+  });
+
+  // ── REPS TABLE ──
+  const rt = document.getElementById('reps-tbl'); rt.innerHTML = '';
+  names.forEach(n => {
+    const mq = METAS_Q1[n], ma = METAS_ANUAL[n];
+    const attQ = mq ? Math.round((cw[n].q1/mq)*100) : null;
+    const attA = ma ? Math.round((cw[n].total/ma)*100) : null;
+    const exited = n==='Diego', ramp = n==='Ilse';
+    const badge = exited?' <span style="font-size:10px;color:var(--text3);">(salió)</span>':ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
+    const tp = pipe[n].sqo + pipe[n].neg + pipe[n].verb;
+    rt.innerHTML += `<tr>
+      <td>${n}${badge}</td>
+      <td>${mq?fmt(mq):'—'}</td>
+      <td style="color:var(--green);">${cw[n].q1>0?fmt(cw[n].q1):'—'}</td>
+      <td>${attQ!==null?attPill(attQ,fmtP(attQ)):'—'}</td>
+      <td><div class="sqo-cell"><span class="sqo-n">${sqoQ1[n].count} SQOs</span><span class="sqo-v">${fmt(sqoQ1[n].arr)}</span></div></td>
+      <td>${fmt(tp)}</td>
+      <td>${ma?fmt(ma):'—'}</td>
+      <td>${attA!==null?attPill(attA,fmtP(attA)):'—'}</td>
+    </tr>`;
+  });
+  rt.innerHTML += `<tr class="tot">
+    <td>Total equipo</td>
+    <td>${fmt(META_EQUIPO_Q1)}</td>
+    <td style="color:var(--green);">${fmt(totalCwQ1)}</td>
+    <td>${attPill(attQ1,fmtP(attQ1))}</td>
+    <td><div class="sqo-cell"><span class="sqo-n">${totalSqoQ1c} SQOs</span><span class="sqo-v">${fmt(totalSqoQ1arr)}</span></div></td>
+    <td>${fmt(totalPipe)}</td>
+    <td>$12.0M</td>
+    <td>${attPill(attAnual,fmtP(attAnual))}</td>
+  </tr>`;
+
+  // Pipe table
+  const pt = document.getElementById('pipe-tbl'); pt.innerHTML = '';
+  names.forEach(n => {
+    const exited=n==='Diego', ramp=n==='Ilse';
+    const badge = exited?' <span style="font-size:10px;color:var(--text3);">(salió)</span>':ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
+    const tp = pipe[n].sqo+pipe[n].neg+pipe[n].verb+cw[n].total;
+    pt.innerHTML += `<tr>
+      <td>${n}${badge}</td>
+      <td><div class="sqo-cell"><span class="sqo-n">${pipe[n].sqo_count} SQOs</span><span class="sqo-v">${fmt(pipe[n].sqo)}</span></div></td>
+      <td style="color:var(--amber);">${pipe[n].neg>0?fmt(pipe[n].neg):'—'}</td>
+      <td style="color:var(--purple);">${pipe[n].verb>0?fmt(pipe[n].verb):'—'}</td>
+      <td style="color:var(--green);">${cw[n].total>0?fmt(cw[n].total):'—'}</td>
+      <td style="font-weight:600;">${fmt(tp)}</td>
+    </tr>`;
+  });
+  const tSqoC = names.reduce((a,n)=>a+pipe[n].sqo_count,0);
+  pt.innerHTML += `<tr class="tot"><td>Total</td>
+    <td><div class="sqo-cell"><span class="sqo-n">${tSqoC} SQOs</span><span class="sqo-v">${fmt(totalSqo)}</span></div></td>
+    <td style="color:var(--amber);">${fmt(totalNeg)}</td>
+    <td style="color:var(--purple);">${fmt(totalForecast)}</td>
+    <td style="color:var(--green);">${fmt(totalCw)}</td>
+    <td style="font-weight:600;">${fmt(totalPipe+totalCw)}</td>
+  </tr>`;
+
+  // ── FORECAST ──
+  document.getElementById('f-total').textContent = fmt(totalForecast);
+  document.getElementById('f-cwf').textContent   = fmt(totalCw+totalForecast);
+  document.getElementById('f-cwf-pct').innerHTML = `<span style="color:var(--green);">${fmtP(Math.round((totalCw+totalForecast)/META_EQUIPO_ANUAL*100))} de meta anual</span>`;
+  document.getElementById('f-count').textContent = verbalDeals.length;
+  document.getElementById('f-avg').textContent   = verbalDeals.length ? fmt(Math.round(totalForecast/verbalDeals.length)) : '—';
+
+  const ft = document.getElementById('forecast-tbl'); ft.innerHTML = '';
+  verbalDeals.forEach(d => {
+    const ma = METAS_ANUAL[d.ae];
+    const repCw = cw[d.ae]?.total || 0;
+    const accPct = ma ? fmtP(Math.round(((repCw+d.arr)/ma)*100)) : '—';
+    ft.innerHTML += `<tr>
+      <td title="${d.name}">${d.name}</td>
+      <td style="text-align:right;font-weight:600;">${fmt(d.arr)}</td>
+      <td style="text-align:center;"><span class="pill pill-v">Verbal</span></td>
+      <td>${d.ae}</td>
+      <td style="text-align:right;font-size:11px;color:var(--text2);">${accPct}</td>
+    </tr>`;
+  });
+  document.getElementById('forecast-foot').innerHTML = `<tr class="tot">
+    <td>Total forecast</td>
+    <td style="text-align:right;">${fmt(totalForecast)}</td>
+    <td></td><td></td>
+    <td style="text-align:right;font-size:11px;">CW+F = ${fmt(totalCw+totalForecast)}</td>
+  </tr>`;
+
+  // ── OKR ──
+  document.getElementById('o-sqos').textContent = totalSqoQ1c;
+  document.getElementById('o-arr').textContent  = fmt(totalSqoQ1arr);
+  document.getElementById('o-pipe').textContent = fmt(totalPipe);
+  document.getElementById('o-avg').textContent  = totalSqoQ1c ? fmt(Math.round(totalSqoQ1arr/totalSqoQ1c)) : '—';
+
+  const ot = document.getElementById('okr-tbl'); ot.innerHTML = '';
+  names.forEach(n => {
+    const avg = sqoQ1[n].count ? Math.round(sqoQ1[n].arr/sqoQ1[n].count) : 0;
+    const tp  = pipe[n].sqo+pipe[n].neg+pipe[n].verb;
+    const exited=n==='Diego',ramp=n==='Ilse';
+    const badge=exited?' <span style="font-size:10px;color:var(--text3);">(salió)</span>':ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
+    ot.innerHTML += `<tr>
+      <td>${n}${badge}</td>
+      <td style="text-align:right;font-weight:600;">${sqoQ1[n].count}</td>
+      <td style="text-align:right;color:var(--blue);">${fmt(sqoQ1[n].arr)}</td>
+      <td style="text-align:right;">${avg?fmt(avg):'—'}</td>
+      <td style="text-align:right;">${fmt(tp)}</td>
+    </tr>`;
+  });
+  ot.innerHTML += `<tr class="tot"><td>Total</td>
+    <td style="text-align:right;">${totalSqoQ1c}</td>
+    <td style="text-align:right;color:var(--blue);">${fmt(totalSqoQ1arr)}</td>
+    <td style="text-align:right;">${totalSqoQ1c?fmt(Math.round(totalSqoQ1arr/totalSqoQ1c)):'—'}</td>
+    <td style="text-align:right;">${fmt(totalPipe)}</td>
+  </tr>`;
+
+  // ── CHARTS ──
+  Object.values(charts).forEach(c => c.destroy());
+  charts = {};
+
+  const chartDefaults = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} } };
+  const xAxis = { ticks:{font:{size:11},color:'#666'}, grid:{display:false} };
+  const yAxis = (cb) => ({ ticks:{font:{size:10},color:'#666',callback:cb}, grid:{color:'rgba(255,255,255,0.04)'} });
+
+  charts.cwF = new Chart(document.getElementById('cwForecastChart'), {
+    type:'bar', data:{labels:names, datasets:[
+      {label:'CW', data:names.map(n=>cw[n].total), backgroundColor:'#2dca8c', borderRadius:4},
+      {label:'Forecast', data:names.map(n=>pipe[n].verb), backgroundColor:'#9b7ff5', borderRadius:4},
+    ]},
+    options:{...chartDefaults, scales:{x:{...xAxis,stacked:true}, y:{...yAxis(v=>v>=1000000?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1000)+'K'),stacked:true}}}
+  });
+
+  charts.donut = new Chart(document.getElementById('pipeDonut'), {
+    type:'doughnut', data:{labels:['SQO','Negotiation','Verbal','CW'],
+      datasets:[{data:[totalSqo,totalNeg,totalForecast,totalCw], backgroundColor:['#5b8def','#f5a623','#9b7ff5','#2dca8c'], borderWidth:0, hoverOffset:4}]},
+    options:{...chartDefaults, cutout:'64%'}
+  });
+
+  charts.fc = new Chart(document.getElementById('forecastChart'), {
+    type:'bar', data:{labels:names, datasets:[{label:'Forecast', data:names.map(n=>pipe[n].verb), backgroundColor:'#9b7ff5', borderRadius:4}]},
+    options:{...chartDefaults, scales:{x:xAxis, y:yAxis(v=>v>=1000000?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1000)+'K')}}
+  });
+
+  charts.sqoC = new Chart(document.getElementById('sqoCountChart'), {
+    type:'bar', data:{labels:names, datasets:[{label:'SQOs', data:names.map(n=>sqoQ1[n].count), backgroundColor:'#5b8def', borderRadius:4}]},
+    options:{...chartDefaults, scales:{x:xAxis, y:{...yAxis(v=>v),ticks:{...yAxis(v=>v).ticks,stepSize:1}}}}
+  });
+
+  charts.sqoA = new Chart(document.getElementById('sqoArrChart'), {
+    type:'bar', data:{labels:names, datasets:[{label:'ARR', data:names.map(n=>sqoQ1[n].arr), backgroundColor:'#85b7eb', borderRadius:4}]},
+    options:{...chartDefaults, scales:{x:xAxis, y:yAxis(v=>v>=1000000?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1000)+'K')}}
+  });
+
+  // Done
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('date-label').textContent = new Date().toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'});
+}
+
+// Enter key on token input
+document.getElementById('token-input').addEventListener('keydown', e => { if(e.key==='Enter') connect(); });
+</script>
+</body>
+</html>
