@@ -2,7 +2,7 @@ name: Update Sales Dashboard
 
 on:
   schedule:
-    - cron: '0 * * * *'   # cada hora en punto
+    - cron: '30 23 * * 1-5'
   workflow_dispatch:        # permite correrlo manualmente desde GitHub
 
 jobs:
