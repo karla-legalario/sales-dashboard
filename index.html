@@ -206,7 +206,7 @@
         <table class="rtbl">
           <thead><tr>
             <th style="text-align:left;">AE</th>
-            <th>SQOs activos</th><th>Negotiation</th><th>Demo</th><th>Verbal</th><th>Sign</th><th>CW 2026</th><th>Total</th>
+            <th>SQO</th><th>Negotiation</th><th>Demo</th><th>Verbal</th><th>Sign</th><th>CW 2026</th><th style="color:var(--text3);">Future Int.</th><th>Total</th>
           </tr></thead>
           <tbody id="pipe-tbl"></tbody>
         </table>
@@ -421,10 +421,184 @@
       </div>
     </div>
 
+    <!-- MÉTRICAS ROW 2 -->
+    <div class="metrics" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1.5rem;">
+      <div class="mc">
+        <div class="mc-lbl">Ciclo de venta promedio</div>
+        <div class="mc-val" style="color:var(--amber);">59 días</div>
+        <div class="mc-sub">Desde creación hasta cierre</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">Conversion Rate Q1</div>
+        <div class="mc-val" style="color:var(--blue);">8.9%</div>
+        <div class="mc-sub">16 cierres / 179 deals activos en pipe</div>
+      </div>
+      <div class="mc" style="background:var(--green-bg);border-color:var(--green);">
+        <div class="mc-lbl">Pipeline coverage Q2</div>
+        <div class="mc-val" style="color:var(--green);">12.9x</div>
+        <div class="mc-sub" style="color:var(--green);">✅ $38.6M vs meta $3M</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">Ticket promedio Q1</div>
+        <div class="mc-val" style="color:var(--text);">$67K</div>
+        <div class="mc-sub">ARR por deal cerrado</div>
+      </div>
+    </div>
+
     <!-- ATT% POR AE -->
     <div class="section">
       <p class="sec-title">CW Q1 por AE — vs meta</p>
       <div id="q1r-prog"></div>
+    </div>
+
+    <!-- CICLO DE VENTA + WIN RATE + TICKET -->
+    <div class="grid2">
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">Ciclo de venta & Conversion Rate por AE</p>
+        <table class="rtbl">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;">AE</th>
+              <th># Cierres</th>
+              <th># SQOs</th>
+              <th>Conv. Rate</th>
+              <th>Ciclo prom.</th>
+              <th>Ticket prom.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="font-weight:600;">Ernesto</td>
+              <td style="text-align:right;">5</td>
+              <td style="text-align:right;color:var(--text3);">63</td>
+              <td style="text-align:right;"><span style="background:var(--amber-bg);color:var(--amber);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">7.9%</span></td>
+              <td style="text-align:right;color:var(--text2);">89 días</td>
+              <td style="text-align:right;font-weight:600;">$55.6K</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="font-weight:600;">Karla</td>
+              <td style="text-align:right;">6</td>
+              <td style="text-align:right;color:var(--text3);">76</td>
+              <td style="text-align:right;"><span style="background:var(--amber-bg);color:var(--amber);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">7.9%</span></td>
+              <td style="text-align:right;color:var(--text2);">30 días</td>
+              <td style="text-align:right;font-weight:600;">$81.7K</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="font-weight:600;">Rossana</td>
+              <td style="text-align:right;">4</td>
+              <td style="text-align:right;color:var(--text3);">40</td>
+              <td style="text-align:right;"><span style="background:var(--amber-bg);color:var(--amber);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">10.0%</span></td>
+              <td style="text-align:right;color:var(--text2);">38 días</td>
+              <td style="text-align:right;font-weight:600;">$59.9K</td>
+            </tr>
+            <tr class="tot">
+              <td>Equipo</td>
+              <td style="text-align:right;">16</td>
+              <td style="text-align:right;color:var(--text3);">179</td>
+              <td style="text-align:right;"><span style="background:var(--amber-bg);color:var(--amber);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">8.9%</span></td>
+              <td style="text-align:right;">59 días</td>
+              <td style="text-align:right;">$67.4K</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- DEAL SOURCE -->
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">Deal Source — ARR y cierres Q1</p>
+        <table class="rtbl">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;">Fuente</th>
+              <th># Deals</th>
+              <th>ARR total</th>
+              <th>% del total</th>
+              <th>Ticket prom.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td><span style="background:var(--blue-bg);color:var(--blue);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;">Sales</span></td>
+              <td style="text-align:right;">8</td>
+              <td style="text-align:right;font-weight:700;color:var(--green);">$590.7K</td>
+              <td style="text-align:right;color:var(--text2);">55%</td>
+              <td style="text-align:right;">$73.8K</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td><span style="background:var(--purple-bg);color:var(--purple);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;">Marketing</span></td>
+              <td style="text-align:right;">7</td>
+              <td style="text-align:right;font-weight:700;color:var(--green);">$429.1K</td>
+              <td style="text-align:right;color:var(--text2);">40%</td>
+              <td style="text-align:right;">$61.3K</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td><span style="background:var(--teal-bg);color:var(--teal);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;">Internal Referral</span></td>
+              <td style="text-align:right;">1</td>
+              <td style="text-align:right;font-weight:700;color:var(--green);">$59.0K</td>
+              <td style="text-align:right;color:var(--text2);">5%</td>
+              <td style="text-align:right;">$59.0K</td>
+            </tr>
+            <tr class="tot">
+              <td>Total</td>
+              <td style="text-align:right;">16</td>
+              <td style="text-align:right;color:var(--green);">$1.08M</td>
+              <td style="text-align:right;">100%</td>
+              <td style="text-align:right;">$67.4K</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;">
+          <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;">
+            <div style="flex:55;height:10px;background:var(--blue);border-radius:4px 0 0 4px;"></div>
+            <div style="flex:40;height:10px;background:var(--purple);"></div>
+            <div style="flex:5;height:10px;background:var(--teal);border-radius:0 4px 4px 0;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);">
+            <span>Sales 55%</span><span>Marketing 40%</span><span>Referral 5%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CICLO DE VENTA POR DEAL -->
+    <div class="section" style="margin-top:1.25rem;">
+      <p class="sec-title">Ciclo de venta por negocio cerrado Q1</p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;">Negocio</th>
+              <th>AE</th>
+              <th>Valor ARR</th>
+              <th>Creación</th>
+              <th>Cierre</th>
+              <th>Días</th>
+              <th>Deal Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">ID Finance</td><td style="text-align:center;"><span style="background:#dbeafe;padding:2px 8px;border-radius:20px;font-size:11px;">Ernesto</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$32K</td><td style="text-align:center;color:var(--text3);">28 Ago 25</td><td style="text-align:center;color:var(--text3);">12 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--red);">196</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Finopta</td><td style="text-align:center;"><span style="background:#f3f4f6;padding:2px 8px;border-radius:20px;font-size:11px;">Diego</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$71K</td><td style="text-align:center;color:var(--text3);">28 Jul 25</td><td style="text-align:center;color:var(--text3);">08 Ene 26</td><td style="text-align:center;font-weight:700;color:var(--red);">164</td><td style="text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:10px;">Marketing</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Yakult</td><td style="text-align:center;"><span style="background:#fce7f3;padding:2px 8px;border-radius:20px;font-size:11px;">Karla</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$45K</td><td style="text-align:center;color:var(--text3);">19 Nov 25</td><td style="text-align:center;color:var(--text3);">27 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--red);">128</td><td style="text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:10px;">Marketing</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Cobre del Mayo</td><td style="text-align:center;"><span style="background:#dbeafe;padding:2px 8px;border-radius:20px;font-size:11px;">Ernesto</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$65K</td><td style="text-align:center;color:var(--text3);">03 Nov 25</td><td style="text-align:center;color:var(--text3);">27 Feb 26</td><td style="text-align:center;font-weight:700;color:var(--amber);">116</td><td style="text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:10px;">Marketing</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Instituto Sanford</td><td style="text-align:center;"><span style="background:#dbeafe;padding:2px 8px;border-radius:20px;font-size:11px;">Ernesto</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$58K</td><td style="text-align:center;color:var(--text3);">08 Ene 26</td><td style="text-align:center;color:var(--text3);">30 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--amber);">81</td><td style="text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:10px;">Marketing</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">ELAM</td><td style="text-align:center;"><span style="background:#ede9fe;padding:2px 8px;border-radius:20px;font-size:11px;">Rossana</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$74.7K</td><td style="text-align:center;color:var(--text3);">15 Dic 25</td><td style="text-align:center;color:var(--text3);">21 Ene 26</td><td style="text-align:center;font-weight:700;color:var(--amber);">37</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Fideva</td><td style="text-align:center;"><span style="background:#ede9fe;padding:2px 8px;border-radius:20px;font-size:11px;">Rossana</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$84.6K</td><td style="text-align:center;color:var(--text3);">12 Dic 25</td><td style="text-align:center;color:var(--text3);">10 Feb 26</td><td style="text-align:center;font-weight:700;color:var(--amber);">60</td><td style="text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:10px;">Marketing</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Expo Agro</td><td style="text-align:center;"><span style="background:#dbeafe;padding:2px 8px;border-radius:20px;font-size:11px;">Ernesto</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$59K</td><td style="text-align:center;color:var(--text3);">14 Ene 26</td><td style="text-align:center;color:var(--text3);">09 Feb 26</td><td style="text-align:center;font-weight:700;color:var(--green);">26</td><td style="text-align:center;"><span style="background:var(--teal-bg);color:var(--teal);padding:2px 8px;border-radius:20px;font-size:10px;">Referral</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">SCG Sinergia</td><td style="text-align:center;"><span style="background:#dbeafe;padding:2px 8px;border-radius:20px;font-size:11px;">Ernesto</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$64K</td><td style="text-align:center;color:var(--text3);">04 Feb 26</td><td style="text-align:center;color:var(--text3);">04 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--green);">28</td><td style="text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:10px;">Marketing</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Storecheck</td><td style="text-align:center;"><span style="background:#ede9fe;padding:2px 8px;border-radius:20px;font-size:11px;">Rossana</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$41.5K</td><td style="text-align:center;color:var(--text3);">13 Feb 26</td><td style="text-align:center;color:var(--text3);">26 Feb 26</td><td style="text-align:center;font-weight:700;color:var(--green);">13</td><td style="text-align:center;"><span style="background:var(--purple-bg);color:var(--purple);padding:2px 8px;border-radius:20px;font-size:10px;">Marketing</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Carl Zeiss</td><td style="text-align:center;"><span style="background:#ede9fe;padding:2px 8px;border-radius:20px;font-size:11px;">Rossana</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$39K</td><td style="text-align:center;color:var(--text3);">18 Feb 26</td><td style="text-align:center;color:var(--text3);">30 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--amber);">40</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Malow Law</td><td style="text-align:center;"><span style="background:#fce7f3;padding:2px 8px;border-radius:20px;font-size:11px;">Karla</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$89K</td><td style="text-align:center;color:var(--text3);">04 Mar 26</td><td style="text-align:center;color:var(--text3);">11 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--green);">7</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Trascendia</td><td style="text-align:center;"><span style="background:#fce7f3;padding:2px 8px;border-radius:20px;font-size:11px;">Karla</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$89K</td><td style="text-align:center;color:var(--text3);">04 Mar 26</td><td style="text-align:center;color:var(--text3);">13 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--green);">9</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Amberes</td><td style="text-align:center;"><span style="background:#fce7f3;padding:2px 8px;border-radius:20px;font-size:11px;">Karla</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$89K</td><td style="text-align:center;color:var(--text3);">13 Mar 26</td><td style="text-align:center;color:var(--text3);">19 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--green);">6</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Envoz</td><td style="text-align:center;"><span style="background:#fce7f3;padding:2px 8px;border-radius:20px;font-size:11px;">Karla</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$89K</td><td style="text-align:center;color:var(--text3);">04 Mar 26</td><td style="text-align:center;color:var(--text3);">20 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--green);">16</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="font-weight:600;">Corp. Ventas</td><td style="text-align:center;"><span style="background:#fce7f3;padding:2px 8px;border-radius:20px;font-size:11px;">Karla</span></td><td style="text-align:right;color:var(--green);font-weight:700;">$89K</td><td style="text-align:center;color:var(--text3);">04 Mar 26</td><td style="text-align:center;color:var(--text3);">21 Mar 26</td><td style="text-align:center;font-weight:700;color:var(--green);">17</td><td style="text-align:center;"><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-size:10px;">Sales</span></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3);">
+          🟢 &lt;30 días &nbsp;🟡 30–90 días &nbsp;🔴 &gt;90 días
+        </div>
+      </div>
     </div>
 
     <!-- TABLA CIERRES Q1 -->
@@ -500,13 +674,20 @@ const DATA={
   cw_q2:  {Ernesto:0,       Karla:89000,    Rossana:0,      Diego:0,     Ilse:0},
   cw:     {Ernesto:278000,  Karla:579000,   Rossana:239800, Diego:71000, Ilse:0},
   sqo:    {Ernesto:3680000, Karla:6851500,  Rossana:980000, Diego:250000,Ilse:0},
-  sqo_count:{Ernesto:8,    Karla:12,        Rossana:7,      Diego:1,     Ilse:0},
+  sqo_count: {Ernesto:8,  Karla:12, Rossana:7,  Diego:1, Ilse:0},
+  neg_count: {Ernesto:22, Karla:10, Rossana:18, Diego:1, Ilse:0},
+  demo_count:{Ernesto:9,  Karla:8,  Rossana:2,  Diego:0, Ilse:0},
+  verb_count:{Ernesto:4,  Karla:4,  Rossana:4,  Diego:0, Ilse:0},
+  sign_count:{Ernesto:4,  Karla:2,  Rossana:3,  Diego:0, Ilse:0},
+  cw_count:  {Ernesto:5,  Karla:7,  Rossana:4,  Diego:1, Ilse:0},
   neg:    {Ernesto:6552000, Karla:3555100,  Rossana:2828045,Diego:960000,Ilse:0},
   demo:   {Ernesto:1621400, Karla:4350000,  Rossana:129000, Diego:0,     Ilse:0},
   verbal: {Ernesto:1099600, Karla:2667600,  Rossana:334800, Diego:0,     Ilse:0},
   sign:   {Ernesto:102000,  Karla:2500000,  Rossana:97000,  Diego:0,     Ilse:0},
   sqoQ1_count:{Ernesto:47,Karla:27,Rossana:48,Diego:0,Ilse:26},
   sqoQ1_arr:  {Ernesto:7355300,Karla:5436500,Rossana:3216545,Diego:0,Ilse:198400},
+  fi:         {Ernesto:2083700, Karla:13276300,Rossana:652696, Diego:0,     Ilse:0},
+  fi_count:   {Ernesto:18,      Karla:42,       Rossana:11,     Diego:0,     Ilse:0},
   forecastDeals:[
     {d:'DiDi Global',             a:2500000,ae:'Karla',   stage:'sign'},
     {d:'Chubb',                   a:2373600,ae:'Karla',   stage:'verbal'},
@@ -589,27 +770,48 @@ const pt=document.getElementById('pipe-tbl');
 names.forEach(n=>{
   const exited=n==='Diego',ramp=n==='Ilse';
   const badge=exited?' <span style="font-size:10px;color:var(--text3);">(salió)</span>':ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
-  const tot=DATA.sqo[n]+DATA.neg[n]+DATA.demo[n]+DATA.verbal[n]+DATA.sign[n]+DATA.cw[n];
+  const cwTot=((DATA.cw_q1||{})[n]||0)+((DATA.cw_q2||{})[n]||0);
+  const cwCnt=(DATA.cw_count||{})[n]||0;
+  const fiAmt=(DATA.fi||{})[n]||0;
+  const fiCnt=(DATA.fi_count||{})[n]||0;
+  const tot=DATA.sqo[n]+DATA.neg[n]+DATA.demo[n]+DATA.verbal[n]+DATA.sign[n];
+  function stageCell(cnt, amt, color) {
+    if(!cnt && !amt) return '—';
+    return `<div class="sqo-cell"><span class="sqo-n" style="color:${color};font-size:11px;">${cnt} deals</span><span class="sqo-v">${fmt(amt)}</span></div>`;
+  }
   pt.innerHTML+=`<tr>
     <td>${n}${badge}</td>
-    <td><div class="sqo-cell"><span class="sqo-n">${DATA.sqo_count[n]} SQOs</span><span class="sqo-v">${fmt(DATA.sqo[n])}</span></div></td>
-    <td style="color:var(--amber);">${DATA.neg[n]>0?fmt(DATA.neg[n]):'—'}</td>
-    <td style="color:#e07820;">${DATA.demo[n]>0?fmt(DATA.demo[n]):'—'}</td>
-    <td style="color:var(--purple);">${DATA.verbal[n]>0?fmt(DATA.verbal[n]):'—'}</td>
-    <td style="color:var(--teal);">${DATA.sign[n]>0?fmt(DATA.sign[n]):'—'}</td>
-    <td style="color:var(--green);">${DATA.cw[n]>0?fmt(DATA.cw[n]):'—'}</td>
-    <td style="font-weight:600;">${fmt(tot)}</td>
+    <td>${stageCell(DATA.sqo_count[n], DATA.sqo[n], 'var(--blue)')}</td>
+    <td style="color:var(--amber);">${stageCell(DATA.neg_count[n], DATA.neg[n], 'var(--amber)')}</td>
+    <td style="color:#e07820;">${stageCell(DATA.demo_count[n], DATA.demo[n], '#e07820')}</td>
+    <td style="color:var(--purple);">${stageCell(DATA.verb_count[n], DATA.verbal[n], 'var(--purple)')}</td>
+    <td style="color:var(--teal);">${stageCell(DATA.sign_count[n], DATA.sign[n], 'var(--teal)')}</td>
+    <td style="color:var(--green);">${stageCell(cwCnt, cwTot, 'var(--green)')}</td>
+    <td>${stageCell(fiCnt, fiAmt, 'var(--text3)')}</td>
+    <td style="font-weight:600;">${fmt(tot+cwTot+fiAmt)}</td>
   </tr>`;
 });
 const tSqoC=names.reduce((a,n)=>a+DATA.sqo_count[n],0);
+const tNegC=names.reduce((a,n)=>a+(DATA.neg_count[n]||0),0);
+const tDemoC=names.reduce((a,n)=>a+(DATA.demo_count[n]||0),0);
+const tVerbC=names.reduce((a,n)=>a+(DATA.verb_count[n]||0),0);
+const tSignC=names.reduce((a,n)=>a+(DATA.sign_count[n]||0),0);
+const tCwC=names.reduce((a,n)=>a+(DATA.cw_count[n]||0),0);
+const tFiAmt=names.reduce((a,n)=>a+((DATA.fi||{})[n]||0),0);
+const tFiCnt=names.reduce((a,n)=>a+((DATA.fi_count||{})[n]||0),0);
+const tCwAll=names.reduce((a,n)=>a+((DATA.cw_q1||{})[n]||0)+((DATA.cw_q2||{})[n]||0),0);
+function totCell(cnt, amt, color){
+  return `<div class="sqo-cell"><span class="sqo-n" style="color:${color};font-size:11px;">${cnt} deals</span><span class="sqo-v">${fmt(amt)}</span></div>`;
+}
 pt.innerHTML+=`<tr class="tot"><td>Total</td>
-  <td><div class="sqo-cell"><span class="sqo-n">${tSqoC} SQOs</span><span class="sqo-v">${fmt(totalSqo)}</span></div></td>
-  <td style="color:var(--amber);">${fmt(totalNeg)}</td>
-  <td style="color:#e07820;">${fmt(totalDemo)}</td>
-  <td style="color:var(--purple);">${fmt(totalVerb)}</td>
-  <td style="color:var(--teal);">${fmt(totalSign)}</td>
-  <td style="color:var(--green);">${fmt(totalCw)}</td>
-  <td style="font-weight:600;">${fmt(totalPipe+totalCw)}</td></tr>`;
+  <td>${totCell(tSqoC, totalSqo, 'var(--blue)')}</td>
+  <td>${totCell(tNegC, totalNeg, 'var(--amber)')}</td>
+  <td>${totCell(tDemoC, totalDemo, '#e07820')}</td>
+  <td>${totCell(tVerbC, totalVerb, 'var(--purple)')}</td>
+  <td>${totCell(tSignC, totalSign, 'var(--teal)')}</td>
+  <td>${totCell(tCwC, tCwAll, 'var(--green)')}</td>
+  <td>${totCell(tFiCnt, tFiAmt, 'var(--text3)')}</td>
+  <td style="font-weight:600;">${fmt(totalPipe+tCwAll+tFiAmt)}</td></tr>`;
 
 // FORECAST TABLE
 const sortedFc=[...DATA.forecastDeals].sort((a,b)=>b.a-a.a);
