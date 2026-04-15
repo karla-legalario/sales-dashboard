@@ -453,6 +453,7 @@
           <span id="q1r-fc-total" style="font-size:13px;font-weight:700;color:var(--purple);">$0</span>
           <button onclick="guardarForecastQ2()" style="font-size:11px;padding:5px 14px;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:var(--font);font-weight:600;">💾 Guardar</button>
           <button onclick="limpiarFila()" style="font-size:11px;padding:5px 14px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-family:var(--font);">+ Fila</button>
+          <button onclick="resetearForecastQ2()" style="font-size:11px;padding:5px 14px;background:var(--bg3);color:var(--text3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-family:var(--font);" title="Volver a cargar desde HubSpot">↺ Recargar</button>
         </div>
       </div>
       <p style="font-size:11px;color:var(--text3);margin-bottom:12px;">Edita directamente en la tabla. Los cambios se guardan en tu browser. Haz clic en cualquier celda para editar.</p>
@@ -937,14 +938,23 @@ function renderQ1Results() {
 function loadForecastQ2() {
   const saved = localStorage.getItem('forecastQ2_legalario');
   if(saved) {
-    try { q2FcData = JSON.parse(saved); } catch(e) { q2FcData = []; }
+    try {
+      q2FcData = JSON.parse(saved);
+      return; // usar datos guardados, no sobrescribir
+    } catch(e) { q2FcData = []; }
   }
-  // Si vacío, inicializar 20 filas
-  if(!q2FcData.length) {
-    q2FcData = Array.from({length:20}, ()=>({d:'',ae:'',a:'',m:'',stage:''}));
-  }
-  // Asegurar al menos 20 filas
-  while(q2FcData.length < 20) q2FcData.push({d:'',ae:'',a:'',m:'',stage:''});
+  // Primera vez: pre-llenar con deals de Verbal y Sign
+  q2FcData = DATA.forecastDeals.map(function(d) {
+    return {
+      d:     d.d,
+      ae:    d.ae,
+      a:     d.a,
+      m:     '',
+      stage: d.stage === 'sign' ? 'Sign' : 'Verbal'
+    };
+  });
+  // Agregar 5 filas vacías al final para nuevos deals
+  for(var i=0; i<5; i++) q2FcData.push({d:'',ae:'',a:'',m:'',stage:''});
 }
 
 function renderForecastQ2() {
@@ -1012,6 +1022,20 @@ function limpiarFila() {
 function eliminarFila(i) {
   q2FcData.splice(i,1);
   renderForecastQ2();
+}
+
+function resetearForecastQ2() {
+  if(!confirm('¿Recargar desde HubSpot? Se perderán los cambios no guardados.')) return;
+  localStorage.removeItem('forecastQ2_legalario');
+  q2FcData = [];
+  loadForecastQ2();
+  renderForecastQ2();
+  document.getElementById('q1r-fc-saved').textContent = '↺ Recargado desde HubSpot';
+  document.getElementById('q1r-fc-saved').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('q1r-fc-saved').style.display='none';
+    document.getElementById('q1r-fc-saved').textContent='✓ Guardado correctamente';
+  }, 2500);
 }
 </script>
 </body>
