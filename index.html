@@ -1,1 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Dashboard — Legalario 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root{
+    --bg:#f0f4f8;--bg2:#ffffff;--bg3:#e4ecf4;--bg4:#d5e2ee;
+    --border:rgba(30,80,140,0.10);--border2:rgba(30,80,140,0.18);
+    --text:#0d1f3c;--text2:#2c4a6e;--text3:#6b8aaa;
+    --green:#0e8a5f;--green-bg:rgba(14,138,95,0.09);
+    --amber:#b86e00;--amber-bg:rgba(184,110,0,0.09);
+    --red:#b03030;--red-bg:rgba(176,48,48,0.09);
+    --blue:#1a56c4;--blue-bg:rgba(26,86,196,0.09);
+    --purple:#5b3fb5;--purple-bg:rgba(91,63,181,0.09);
+    --teal:#0b7a6a;--teal-bg:rgba(11,122,106,0.09);
+    --font:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
+  .topbar{position:sticky;top:0;z-index:100;background:rgba(220,232,245,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
+  .brand{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text);}
+  .live-badge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .date-badge{font-size:11px;color:var(--text3);font-family:var(--mono);background:var(--bg3);padding:4px 10px;border-radius:6px;border:1px solid var(--border);}
+  .main{max-width:1280px;margin:0 auto;padding:2rem;}
+  .tabs{display:flex;gap:2px;margin-bottom:1.75rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;}
+  .tab{font-size:13px;padding:6px 18px;border-radius:7px;cursor:pointer;color:var(--text2);background:transparent;border:none;font-family:var(--font);transition:all .2s;}
+  .tab.active{background:var(--bg2);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+  .view{display:none;}.view.active{display:block;}
+  .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:1.5rem;}
+  .mc{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.25rem;box-shadow:0 2px 8px rgba(30,80,140,0.06);}
+  .mc-lbl{font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;}
+  .mc-val{font-size:23px;font-weight:700;letter-spacing:-.02em;}
+  .mc-sub{font-size:11px;margin-top:4px;color:var(--text2);}
+  .section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;box-shadow:0 2px 8px rgba(30,80,140,0.06);}
+  .sec-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:1.1rem;letter-spacing:.03em;text-transform:uppercase;}
+  .q-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem;}
+  .q-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;}
+  .q-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+  .q-val{font-size:18px;font-weight:600;margin-bottom:2px;}
+  .q-sub{font-size:11px;color:var(--text2);margin-bottom:8px;}
+  .q-bar-bg{background:var(--bg4);border-radius:3px;height:4px;}
+  .q-bar-fill{height:4px;border-radius:3px;}
+  .ab-wrap{margin-top:1rem;}
+  .ab-top{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:5px;font-family:var(--mono);}
+  .ab-bg{background:var(--bg4);border-radius:6px;height:16px;position:relative;}
+  .ab-fill{height:16px;border-radius:6px;background:var(--blue);}
+  .ab-m{position:absolute;top:-5px;height:26px;width:1.5px;border-radius:1px;background:rgba(201,64,64,.4);}
+  .ab-ticks{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:4px;}
+  .prog-row{margin-bottom:16px;}
+  .prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;}
+  .prog-name{font-size:13px;font-weight:500;}
+  .prog-nums{font-size:11px;color:var(--text2);font-family:var(--mono);}
+  .prog-bg{background:var(--bg4);border-radius:4px;height:8px;position:relative;}
+  .prog-fill{height:8px;border-radius:4px;}
+  .prog-marker{position:absolute;top:-5px;height:18px;width:2px;border-radius:1px;background:rgba(201,64,64,.5);}
+  .prog-hint{font-size:10px;color:var(--text3);margin-top:3px;text-align:right;}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:1.25rem;}
+  .rtbl{width:100%;border-collapse:collapse;font-size:12px;}
+  .rtbl th{font-size:10px;color:var(--text3);text-align:right;padding:0 8px 10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+  .rtbl th:first-child{text-align:left;}
+  .rtbl td{padding:8px;color:var(--text2);text-align:right;border-top:1px solid var(--border);vertical-align:middle;}
+  .rtbl td:first-child{text-align:left;font-weight:500;color:var(--text);}
+  .rtbl .tot td{font-weight:600;color:var(--text);border-top:1px solid var(--border2);background:var(--bg3);}
+  .sqo-cell{display:flex;flex-direction:column;align-items:flex-end;gap:1px;}
+  .sqo-n{font-size:13px;font-weight:500;color:var(--text);}
+  .sqo-v{font-size:10px;color:var(--text3);font-family:var(--mono);}
+  .dtbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;}
+  .dtbl th{font-size:10px;color:var(--text3);padding:0 10px 10px;text-align:left;font-weight:500;text-transform:uppercase;letter-spacing:.05em;}
+  .dtbl td{padding:7px 10px;border-top:1px solid var(--border);color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .dtbl .tot td{font-weight:600;color:var(--text);border-top:1px solid var(--border2);background:var(--bg3);}
+  .pill{font-size:10px;padding:2px 8px;border-radius:20px;display:inline-block;font-weight:500;}
+  .pill-v{background:var(--purple-bg);color:var(--purple);}
+  .pill-s{background:var(--teal-bg);color:var(--teal);}
+  .att-pill{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;display:inline-block;}
+  .leg{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;}
+  .leg-i{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+  .leg-d{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+  .upd-note{font-size:11px;color:var(--text3);text-align:center;padding:1rem 0;font-family:var(--mono);}
+  @media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr)}.q-grid{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.main{padding:1rem}.topbar{padding:0 1rem}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:1.5rem;">
+    <span class="brand" style="color:#0d1f3c;font-size:14px;letter-spacing:.1em;">LEGALARIO · SALES</span>
+    <span class="live-badge"><span class="live-dot"></span>Datos al 14 Abr 2026</span>
+  </div>
+  <span class="date-badge">14 Abr 2026</span>
+</div>
 
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('general')">General</div>
+    <div class="tab" onclick="switchTab('reps')">Por AE</div>
+    <div class="tab" onclick="switchTab('forecast')">Forecast</div>
+    <div class="tab" onclick="switchTab('okr')">OKR Pipeline</div>
+    <div class="tab" onclick="switchTab('planweb')">Plan Web</div>
+    <div class="tab" onclick="switchTab('q1results')" style="color:var(--green);font-weight:700;">✓ Resultados Q1</div>
+  </div>
+
+  <!-- GENERAL -->
+  <div id="view-general" class="view active">
+    <div class="metrics" style="grid-template-columns:repeat(5,minmax(0,1fr));">
+      <div class="mc"><div class="mc-lbl">Meta anual</div><div class="mc-val">$12.0M</div><div class="mc-sub">New logos 2026</div></div>
+      <div class="mc"><div class="mc-lbl">Vendido al momento</div><div class="mc-val" style="color:var(--amber);" id="g-cw-val">—</div><div class="mc-sub" id="g-cw-sub"></div></div>
+      <div class="mc"><div class="mc-lbl">Forecast (Verbal + Sign)</div><div class="mc-val" style="color:var(--purple);" id="g-fc-val">—</div><div class="mc-sub" id="g-fc-sub"></div></div>
+      <div class="mc"><div class="mc-lbl">Pipeline total</div><div class="mc-val" id="g-pipe-val">—</div><div class="mc-sub" id="g-pipe-sub" style="color:var(--green);">—</div></div>
+      <div class="mc"><div class="mc-lbl">Plan Web Q1</div><div class="mc-val" style="color:var(--green);">$259K</div><div class="mc-sub"><span style="color:var(--green);">26% de meta anual $1M</span></div></div>
+    </div>
+
+    <div class="section">
+      <p class="sec-title">Meta anual $12M — attainment acumulado por Q</p>
+      <div class="q-grid">
+        <div class="q-card" id="q1-card">
+          <div class="q-lbl">Q1 · Ene–Mar <span style="font-size:9px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:8px;margin-left:4px;">CERRADO</span></div>
+          <div class="q-val" id="q1-val">—</div>
+          <div class="q-sub" id="q1-sub"></div>
+          <div class="q-bar-bg"><div class="q-bar-fill" id="q1-bar" style="width:0%;"></div></div>
+        </div>
+        <div class="q-card" id="q2-card" style="border:1px solid var(--blue);background:var(--bg2);">
+          <div class="q-lbl">Q2 · Abr–Jun <span style="font-size:9px;background:var(--blue-bg);color:var(--blue);padding:1px 6px;border-radius:8px;margin-left:4px;">EN CURSO</span></div>
+          <div class="q-val" id="q2-val">—</div>
+          <div class="q-sub" id="q2-sub"></div>
+          <div class="q-bar-bg"><div class="q-bar-fill" id="q2-bar" style="width:0%;"></div></div>
+        </div>
+        <div class="q-card" style="opacity:.45;">
+          <div class="q-lbl">Q3 · Jul–Sep</div>
+          <div class="q-val" style="color:var(--text3);">—</div>
+          <div class="q-sub">Meta $3M</div>
+          <div class="q-bar-bg"><div class="q-bar-fill" style="width:0%;"></div></div>
+        </div>
+        <div class="q-card" style="opacity:.45;">
+          <div class="q-lbl">Q4 · Oct–Dic</div>
+          <div class="q-val" style="color:var(--text3);">—</div>
+          <div class="q-sub">Meta $3M</div>
+          <div class="q-bar-bg"><div class="q-bar-fill" style="width:0%;"></div></div>
+        </div>
+      </div>
+      <div class="ab-wrap">
+        <div class="ab-top"><span id="ab-left-txt">—</span><span id="ab-right-txt" style="color:var(--amber);">—</span></div>
+        <div class="ab-bg">
+          <div class="ab-fill" id="ab-fill-bar" style="width:0%;"></div>
+          <div class="ab-m" style="left:25%;"></div>
+          <div class="ab-m" style="left:50%;"></div>
+          <div class="ab-m" style="left:75%;"></div>
+        </div>
+        <div class="ab-ticks"><span>$0</span><span>Q1 $3M</span><span>Q2 $6M</span><span>Q3 $9M</span><span>$12M</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="sec-title">Vendido al momento por AE — vs meta anual</p>
+      <div id="g-prog"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">CW + Forecast por AE</p>
+        <div style="position:relative;height:190px;"><canvas id="cwFChart"></canvas></div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:#1aaa72;"></span>Close Won</span>
+          <span class="leg-i"><span class="leg-d" style="background:#7c5ed4;"></span>Verbal</span>
+          <span class="leg-i"><span class="leg-d" style="background:#0e9e8a;"></span>Sign</span>
+        </div>
+      </div>
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">Distribución pipeline activo</p>
+        <div style="position:relative;height:190px;"><canvas id="pipeDonut"></canvas></div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:#3a6fd4;"></span>SQO</span>
+          <span class="leg-i"><span class="leg-d" style="background:#d4870a;"></span>Negotiation</span>
+          <span class="leg-i"><span class="leg-d" style="background:#e07820;"></span>Demo</span>
+          <span class="leg-i"><span class="leg-d" style="background:#7c5ed4;"></span>Verbal</span>
+          <span class="leg-i"><span class="leg-d" style="background:#0e9e8a;"></span>Sign</span>
+          <span class="leg-i"><span class="leg-d" style="background:#1aaa72;"></span>CW</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POR AE -->
+  <div id="view-reps" class="view">
+    <div class="section">
+      <p class="sec-title">Resumen por AE — Q1 y anual</p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl">
+          <thead><tr>
+            <th style="text-align:left;">AE</th>
+            <th>Meta Q1</th><th>CW Q1</th><th>ATT% Q1</th>
+            <th>SQOs Q1</th><th>Pipe total</th>
+            <th>Meta Q1</th><th>ATT% anual</th>
+          </tr></thead>
+          <tbody id="reps-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <p class="sec-title">Pipeline activo por AE — número y valor</p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl">
+          <thead><tr>
+            <th style="text-align:left;">AE</th>
+            <th>SQOs activos</th><th>Negotiation</th><th>Demo</th><th>Verbal</th><th>Sign</th><th>CW 2026</th><th>Total</th>
+          </tr></thead>
+          <tbody id="pipe-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORECAST -->
+  <div id="view-forecast" class="view">
+    <div class="metrics">
+      <div class="mc"><div class="mc-lbl">Forecast total</div><div class="mc-val" style="color:var(--purple);">$7.87M</div><div class="mc-sub">Verbal + Sign</div></div>
+      <div class="mc"><div class="mc-lbl">CW + Forecast</div><div class="mc-val" style="color:var(--green);">$8.63M</div><div class="mc-sub" style="color:var(--green);">72% de meta anual</div></div>
+      <div class="mc"><div class="mc-lbl">Deals en forecast</div><div class="mc-val" id="f-count">—</div><div class="mc-sub">Verbal + Sign</div></div>
+      <div class="mc"><div class="mc-lbl">Ticket promedio</div><div class="mc-val" id="f-avg">—</div><div class="mc-sub">Por deal en forecast</div></div>
+    </div>
+    <div class="section">
+      <p class="sec-title">Deals en Forecast — Verbal Commitment + Sign</p>
+      <table class="dtbl">
+        <thead><tr>
+          <th style="width:34%;">Deal</th>
+          <th style="width:14%;text-align:right;">ARR</th>
+          <th style="width:11%;text-align:center;">Stage</th>
+          <th style="width:14%;">AE</th>
+          <th style="width:27%;text-align:right;">ATT% anual si cierra</th>
+        </tr></thead>
+        <tbody id="forecast-tbl"></tbody>
+        <tfoot id="forecast-foot"></tfoot>
+      </table>
+    </div>
+    <div class="section">
+      <p class="sec-title">Compromiso de forecast por AE</p>
+      <table class="rtbl">
+        <thead><tr>
+          <th style="text-align:left;">AE</th>
+          <th>Verbal</th>
+          <th>Sign</th>
+          <th>Total forecast</th>
+          <th>Meta Q1</th>
+          <th>CW actual</th>
+          <th>Faltante para meta Q</th>
+        </tr></thead>
+        <tbody id="commit-tbl"></tbody>
+      </table>
+    </div>
+    <div class="section">
+      <p class="sec-title">Forecast por AE (Verbal + Sign)</p>
+      <div style="position:relative;height:200px;"><canvas id="fcChart"></canvas></div>
+      <div class="leg" style="margin-top:10px;">
+        <span class="leg-i"><span class="leg-d" style="background:#7c5ed4;"></span>Verbal</span>
+        <span class="leg-i"><span class="leg-d" style="background:#0e9e8a;"></span>Sign</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OKR -->
+  <div id="view-okr" class="view">
+    <div class="metrics">
+      <div class="mc"><div class="mc-lbl">SQOs generados Q1</div><div class="mc-val">148</div><div class="mc-sub">Q1 cerrado · ene–mar 2026</div></div>
+      <div class="mc"><div class="mc-lbl">ARR nuevo Q1</div><div class="mc-val" style="color:var(--blue);">$16.2M</div><div class="mc-sub">Valor total de SQOs generados</div></div>
+      <div class="mc"><div class="mc-lbl">Pipeline activo</div><div class="mc-val" id="okr-pipe-val">—</div><div class="mc-sub">SQO+Demo+Neg+Verbal+Sign</div></div>
+      <div class="mc"><div class="mc-lbl">Ticket promedio SQO</div><div class="mc-val">$110K</div><div class="mc-sub">Por SQO generado Q1</div></div>
+    </div>
+    <div class="section">
+      <p class="sec-title">SQOs Q1 por AE — número y valor ARR generado</p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl">
+          <thead><tr>
+            <th style="text-align:left;">AE</th>
+            <th># SQOs Q1</th><th>ARR generado Q1</th><th>Ticket prom.</th><th>Pipeline activo total</th>
+          </tr></thead>
+          <tbody id="okr-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title"># SQOs generados Q1 por AE</p>
+        <div style="position:relative;height:180px;"><canvas id="sqoCntChart"></canvas></div>
+      </div>
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">ARR generado Q1 por AE</p>
+        <div style="position:relative;height:180px;"><canvas id="sqoArrChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAN WEB -->
+  <div id="view-planweb" class="view">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;">
+      <span style="font-size:13px;font-weight:600;color:var(--text2);">AE responsable:</span>
+      <span style="font-size:13px;font-weight:700;color:var(--text);">Ilse González</span>
+      <span style="font-size:11px;background:var(--amber-bg);color:var(--amber);padding:2px 10px;border-radius:20px;margin-left:4px;">en rampa</span>
+    </div>
+
+    <div class="metrics">
+      <div class="mc"><div class="mc-lbl">Meta anual Plan Web</div><div class="mc-val">$1.00M</div><div class="mc-sub">Canal separado de New Logos</div></div>
+      <div class="mc"><div class="mc-lbl">Vendido Q1</div><div class="mc-val" style="color:var(--green);">$259K</div><div class="mc-sub"><span style="color:var(--green);">✓ ✓ 104% meta Q alcanzada</span></div></div>
+      <div class="mc"><div class="mc-lbl">New Logo Q1</div><div class="mc-val" style="color:var(--blue);">$117K</div><div class="mc-sub">18 deals · tipo Plan Web</div></div>
+      <div class="mc"><div class="mc-lbl">Base Instalada Q1</div><div class="mc-val" style="color:var(--purple);">$142K</div><div class="mc-sub">16 renovaciones</div></div>
+    </div>
+
+    <!-- Barra anual -->
+    <div class="section">
+      <p class="sec-title">Meta anual $1M — attainment acumulado</p>
+      <div class="q-grid">
+        <div class="q-card">
+          <div class="q-lbl">Q1 · Ene–Mar</div>
+          <div class="q-val" style="color:var(--green);">$259K</div>
+          <div class="q-sub" style="color:var(--green);">✓ 101% meta Q alcanzada</div>
+          <div class="q-bar-bg"><div class="q-bar-fill" style="width:100%;background:var(--green);"></div></div>
+        </div>
+        <div class="q-card" style="opacity:.45;">
+          <div class="q-lbl">Q2 · Abr–Jun</div>
+          <div class="q-val" style="color:var(--text3);">—</div>
+          <div class="q-sub">Meta $250K</div>
+          <div class="q-bar-bg"><div class="q-bar-fill" style="width:0%;"></div></div>
+        </div>
+        <div class="q-card" style="opacity:.45;">
+          <div class="q-lbl">Q3 · Jul–Sep</div>
+          <div class="q-val" style="color:var(--text3);">—</div>
+          <div class="q-sub">Meta $250K</div>
+          <div class="q-bar-bg"><div class="q-bar-fill" style="width:0%;"></div></div>
+        </div>
+        <div class="q-card" style="opacity:.45;">
+          <div class="q-lbl">Q4 · Oct–Dic</div>
+          <div class="q-val" style="color:var(--text3);">—</div>
+          <div class="q-sub">Meta $250K</div>
+          <div class="q-bar-bg"><div class="q-bar-fill" style="width:0%;"></div></div>
+        </div>
+      </div>
+      <div class="ab-wrap">
+        <div class="ab-top"><span>Acumulado: $259K</span><span style="color:var(--green);">26% de $1M</span></div>
+        <div class="ab-bg">
+          <div class="ab-fill" style="width:25.88%;background:var(--blue);"></div>
+          <div class="ab-m" style="left:25%;"></div>
+          <div class="ab-m" style="left:50%;"></div>
+          <div class="ab-m" style="left:75%;"></div>
+        </div>
+        <div class="ab-ticks"><span>$0</span><span>Q1 $250K</span><span>Q2 $500K</span><span>Q3 $750K</span><span>$1M</span></div>
+      </div>
+    </div>
+
+    <!-- Desglose NL vs BI -->
+    <div class="grid2">
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">Vendido por mes — NL vs Base Instalada</p>
+        <div style="position:relative;height:190px;"><canvas id="pwMonthChart"></canvas></div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:var(--blue);"></span>New Logo</span>
+          <span class="leg-i"><span class="leg-d" style="background:var(--purple);"></span>Base Instalada</span>
+        </div>
+      </div>
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">Distribución Q1</p>
+        <div style="position:relative;height:190px;"><canvas id="pwDonut"></canvas></div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:var(--blue);"></span>New Logo $110K (44%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:var(--purple);"></span>Base Instalada $142K (56%)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla New Logo -->
+    <div class="section">
+      <p class="sec-title">Deals New Logo — Plan Web Q1 2026</p>
+      <table class="rtbl">
+        <thead><tr>
+          <th style="text-align:left;">Deal</th>
+          <th>Mes</th><th>ARR</th>
+        </tr></thead>
+        <tbody id="pw-nl-tbl"></tbody>
+      </table>
+    </div>
+
+    <!-- Tabla Base Instalada -->
+    <div class="section">
+      <p class="sec-title">Renovaciones — Base Instalada Q1 2026</p>
+      <table class="rtbl">
+        <thead><tr>
+          <th style="text-align:left;">Deal</th>
+          <th>Mes</th><th>ARR</th>
+        </tr></thead>
+        <tbody id="pw-bi-tbl"></tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- RESULTADOS Q1 -->
+  <div id="view-q1results" class="view">
+
+    <!-- MÉTRICAS CW vs META -->
+    <div class="metrics" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1.5rem;">
+      <div class="mc" style="background:var(--green-bg);border-color:var(--green);">
+        <div class="mc-lbl">CW Q1 Total</div>
+        <div class="mc-val" id="q1r-cw" style="color:var(--green);">—</div>
+        <div class="mc-sub" id="q1r-cw-sub"></div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">Meta Q1</div>
+        <div class="mc-val" style="color:var(--text3);">$3.00M</div>
+        <div class="mc-sub">New Logos ene–mar 2026</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">SQOs generados Q1</div>
+        <div class="mc-val" id="q1r-sqos" style="color:var(--blue);">—</div>
+        <div class="mc-sub" id="q1r-sqos-sub"></div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">ARR generado Q1</div>
+        <div class="mc-val" id="q1r-arr" style="color:var(--blue);">—</div>
+        <div class="mc-sub">Valor total SQOs ene–mar</div>
+      </div>
+    </div>
+
+    <!-- ATT% POR AE -->
+    <div class="section">
+      <p class="sec-title">CW Q1 por AE — vs meta</p>
+      <div id="q1r-prog"></div>
+    </div>
+
+    <!-- TABLA CIERRES Q1 -->
+    <div class="section">
+      <p class="sec-title">Negocios cerrados Q1 2026</p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;">Negocio</th>
+              <th>AE</th>
+              <th>Valor ARR</th>
+              <th>Mes cierre</th>
+            </tr>
+          </thead>
+          <tbody id="q1r-deals-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FORECAST Q2 EDITABLE -->
+    <div class="section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+        <p class="sec-title" style="margin:0;">Forecast Q2 — Compromisos de cierre</p>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span id="q1r-fc-total" style="font-size:13px;font-weight:700;color:var(--purple);">$0</span>
+          <button onclick="guardarForecastQ2()" style="font-size:11px;padding:5px 14px;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:var(--font);font-weight:600;">💾 Guardar</button>
+          <button onclick="limpiarFila()" style="font-size:11px;padding:5px 14px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-family:var(--font);">+ Fila</button>
+          <button onclick="resetearForecastQ2()" style="font-size:11px;padding:5px 14px;background:var(--bg3);color:var(--text3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-family:var(--font);" title="Volver a cargar desde HubSpot">↺ Recargar</button>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text3);margin-bottom:12px;">Edita directamente en la tabla. Los cambios se guardan en tu browser. Haz clic en cualquier celda para editar.</p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl" id="q2-forecast-tbl" style="min-width:600px;">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;width:35%;">Nombre del negocio</th>
+              <th style="width:15%;">AE</th>
+              <th style="width:15%;">Valor ARR</th>
+              <th style="width:15%;">Mes cierre</th>
+              <th style="width:10%;text-align:center;">Stage</th>
+              <th style="width:10%;text-align:center;">✕</th>
+            </tr>
+          </thead>
+          <tbody id="q2-fc-body"></tbody>
+        </table>
+      </div>
+      <div id="q1r-fc-saved" style="font-size:11px;color:var(--green);margin-top:8px;display:none;">✓ Guardado correctamente</div>
+    </div>
+
+  </div>
+
+  <p class="upd-note">Datos extraídos de HubSpot · 14 Abr 2026 · Para actualizar, contacta a Karla</p>
+</div>
+
+<script>
+function switchTab(id){
+  const tabIds=['general','reps','forecast','okr','planweb','q1results']; document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabIds[i]===id));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+id)); if(id==='q1results') setTimeout(renderQ1Results,50);
+}
+const fmt=n=>n>=1000000?'$'+(n/1000000).toFixed(2)+'M':'$'+(n/1000).toFixed(0)+'K';
+const fmtP=n=>Math.round(n)+'%';
+const ac=p=>p>=70?'var(--green)':p>=30?'var(--amber)':'var(--red)';
+const acBg=p=>p>=70?'var(--green-bg)':p>=30?'var(--amber-bg)':'var(--red-bg)';
+const attPill=(p,l)=>`<span class="att-pill" style="background:${acBg(p)};color:${ac(p)};">${l}</span>`;
+
+const METAS_ANUAL={Ernesto:5200000,Karla:4400000,Rossana:3000000,Ilse:2600000};
+const METAS_Q1={Ernesto:1300000,Karla:1100000,Rossana:750000,Ilse:650000};
+const META_EQ1=3000000,META_EA=12000000;
+
+const DATA={
+  cw_q1:  {Ernesto:278000,  Karla:490000,   Rossana:239800, Diego:71000, Ilse:0},
+  cw_q2:  {Ernesto:0,       Karla:89000,    Rossana:0,      Diego:0,     Ilse:0},
+  cw:     {Ernesto:278000,  Karla:579000,   Rossana:239800, Diego:71000, Ilse:0},
+  sqo:    {Ernesto:3680000, Karla:6851500,  Rossana:980000, Diego:250000,Ilse:0},
+  sqo_count:{Ernesto:8,    Karla:12,        Rossana:7,      Diego:1,     Ilse:0},
+  neg:    {Ernesto:6552000, Karla:3555100,  Rossana:2828045,Diego:960000,Ilse:0},
+  demo:   {Ernesto:1621400, Karla:4350000,  Rossana:129000, Diego:0,     Ilse:0},
+  verbal: {Ernesto:1099600, Karla:2667600,  Rossana:334800, Diego:0,     Ilse:0},
+  sign:   {Ernesto:102000,  Karla:2500000,  Rossana:97000,  Diego:0,     Ilse:0},
+  sqoQ1_count:{Ernesto:47,Karla:27,Rossana:48,Diego:0,Ilse:26},
+  sqoQ1_arr:  {Ernesto:7355300,Karla:5436500,Rossana:3216545,Diego:0,Ilse:198400},
+  forecastDeals:[
+    {d:'DiDi Global',             a:2500000,ae:'Karla',   stage:'sign'},
+    {d:'Chubb',                   a:2373600,ae:'Karla',   stage:'verbal'},
+    {d:'Pase',                    a:957600, ae:'Ernesto', stage:'verbal'},
+    {d:'Lambda Científica',       a:200800, ae:'Rossana', stage:'verbal'},
+    {d:'Santander SAM',           a:160000, ae:'Karla',   stage:'verbal'},
+    {d:'Inverlar.cloudpos',       a:134000, ae:'Karla',   stage:'verbal'},
+    {d:'Pulppo',                  a:95000,  ae:'Rossana', stage:'verbal'},
+    {d:'Fintoc',                  a:56000,  ae:'Ernesto', stage:'verbal'},
+    {d:'COMECA',                  a:58000,  ae:'Ernesto', stage:'sign'},
+    {d:'Mayoristas Vinos y Lic.', a:50000,  ae:'Ernesto', stage:'sign'},
+    {d:'Carrocerías Hernández',   a:39000,  ae:'Rossana', stage:'verbal'},
+    {d:'Universidad Unila',       a:36000,  ae:'Ernesto', stage:'verbal'},
+    {d:'Seramaq',                 a:44000,  ae:'Ernesto', stage:'sign'},
+    {d:'XALDIGITAL',              a:52000,  ae:'Rossana', stage:'sign'},
+    {d:'HEMO-IONICS',             a:45000,  ae:'Rossana', stage:'sign'},
+  ],
+};
+
+const names=['Ernesto','Karla','Rossana','Diego','Ilse'];
+const totalCw   =names.reduce((a,n)=>a+DATA.cw[n],0);
+const totalSqo  =names.reduce((a,n)=>a+DATA.sqo[n],0);
+const totalNeg  =names.reduce((a,n)=>a+DATA.neg[n],0);
+const totalVerb =names.reduce((a,n)=>a+DATA.verbal[n],0);
+const totalSign =names.reduce((a,n)=>a+DATA.sign[n],0);
+const totalFc   =totalVerb+totalSign;
+const totalDemo =names.reduce((a,n)=>a+DATA.demo[n],0);
+const totalPipe =totalSqo+totalNeg+totalDemo+totalVerb+totalSign;
+const attQ1     =Math.round((totalCw/META_EQ1)*100);
+const attA      =Math.round((totalCw/META_EA)*100);
+
+// GENERAL PROGRESS
+const gp=document.getElementById('g-prog');
+names.forEach(n=>{
+  const meta=METAS_ANUAL[n],val=DATA.cw[n];
+  const pct=meta?Math.round((val/meta)*100):null;
+  const q1pct=meta&&METAS_Q1[n]?Math.round((METAS_Q1[n]/meta)*100):null;
+  const exited=n==='Diego',ramp=n==='Ilse';
+  const badge=exited?'<span style="font-size:10px;background:var(--bg4);color:var(--text3);padding:1px 7px;border-radius:10px;margin-left:5px;border:1px solid var(--border);">salió</span>':
+              ramp?'<span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 7px;border-radius:10px;margin-left:5px;">rampa</span>':'';
+  gp.innerHTML+=`<div class="prog-row">
+    <div class="prog-top">
+      <span class="prog-name">${n}${badge}</span>
+      <span class="prog-nums">${fmt(val)} vendido · ${meta?fmt(meta):'—'} meta · <span style="color:${pct!==null?ac(pct):'var(--text3)'};">${pct!==null?fmtP(pct):''}</span></span>
+    </div>
+    <div class="prog-bg">
+      <div class="prog-fill" style="width:${pct?Math.min(pct,100):0}%;background:${pct!==null?ac(pct):'#bbb'};"></div>
+      ${q1pct?`<div class="prog-marker" style="left:${q1pct}%;"></div>`:''}
+    </div>
+    <div class="prog-hint">Línea roja = dónde deberías estar al cierre de Q1</div>
+  </div>`;
+});
+
+// REPS TABLE
+const rt=document.getElementById('reps-tbl');
+names.forEach(n=>{
+  const mq=METAS_Q1[n],ma=METAS_ANUAL[n],cwQ1=DATA.cw[n];
+  const attQ=mq?Math.round((cwQ1/mq)*100):null;
+  const attAn=ma?Math.round((cwQ1/ma)*100):null;
+  const tp=DATA.sqo[n]+DATA.neg[n]+DATA.demo[n]+DATA.verbal[n]+DATA.sign[n];
+  const exited=n==='Diego',ramp=n==='Ilse';
+  const badge=exited?' <span style="font-size:10px;color:var(--text3);">(salió)</span>':ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
+  rt.innerHTML+=`<tr>
+    <td>${n}${badge}</td><td>${mq?fmt(mq):'—'}</td>
+    <td style="color:var(--green);">${cwQ1>0?fmt(cwQ1):'—'}</td>
+    <td>${attQ!==null?attPill(attQ,fmtP(attQ)):'—'}</td>
+    <td><div class="sqo-cell"><span class="sqo-n">${DATA.sqoQ1_count[n]} SQOs</span><span class="sqo-v">${fmt(DATA.sqoQ1_arr[n])}</span></div></td>
+    <td>${fmt(tp)}</td><td>${ma?fmt(ma):'—'}</td>
+    <td>${attAn!==null?attPill(attAn,fmtP(attAn)):'—'}</td>
+  </tr>`;
+});
+const totSQ1c=names.reduce((a,n)=>a+DATA.sqoQ1_count[n],0);
+const totSQ1a=names.reduce((a,n)=>a+DATA.sqoQ1_arr[n],0);
+rt.innerHTML+=`<tr class="tot"><td>Total equipo</td><td>${fmt(META_EQ1)}</td><td style="color:var(--green);">${fmt(totalCw)}</td><td>${attPill(attQ1,fmtP(attQ1))}</td>
+  <td><div class="sqo-cell"><span class="sqo-n">${totSQ1c} SQOs</span><span class="sqo-v">${fmt(totSQ1a)}</span></div></td>
+  <td>${fmt(totalPipe)}</td><td>$12.0M</td><td>${attPill(attA,fmtP(attA))}</td></tr>`;
+
+// PIPE TABLE
+const pt=document.getElementById('pipe-tbl');
+names.forEach(n=>{
+  const exited=n==='Diego',ramp=n==='Ilse';
+  const badge=exited?' <span style="font-size:10px;color:var(--text3);">(salió)</span>':ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
+  const tot=DATA.sqo[n]+DATA.neg[n]+DATA.demo[n]+DATA.verbal[n]+DATA.sign[n]+DATA.cw[n];
+  pt.innerHTML+=`<tr>
+    <td>${n}${badge}</td>
+    <td><div class="sqo-cell"><span class="sqo-n">${DATA.sqo_count[n]} SQOs</span><span class="sqo-v">${fmt(DATA.sqo[n])}</span></div></td>
+    <td style="color:var(--amber);">${DATA.neg[n]>0?fmt(DATA.neg[n]):'—'}</td>
+    <td style="color:#e07820;">${DATA.demo[n]>0?fmt(DATA.demo[n]):'—'}</td>
+    <td style="color:var(--purple);">${DATA.verbal[n]>0?fmt(DATA.verbal[n]):'—'}</td>
+    <td style="color:var(--teal);">${DATA.sign[n]>0?fmt(DATA.sign[n]):'—'}</td>
+    <td style="color:var(--green);">${DATA.cw[n]>0?fmt(DATA.cw[n]):'—'}</td>
+    <td style="font-weight:600;">${fmt(tot)}</td>
+  </tr>`;
+});
+const tSqoC=names.reduce((a,n)=>a+DATA.sqo_count[n],0);
+pt.innerHTML+=`<tr class="tot"><td>Total</td>
+  <td><div class="sqo-cell"><span class="sqo-n">${tSqoC} SQOs</span><span class="sqo-v">${fmt(totalSqo)}</span></div></td>
+  <td style="color:var(--amber);">${fmt(totalNeg)}</td>
+  <td style="color:#e07820;">${fmt(totalDemo)}</td>
+  <td style="color:var(--purple);">${fmt(totalVerb)}</td>
+  <td style="color:var(--teal);">${fmt(totalSign)}</td>
+  <td style="color:var(--green);">${fmt(totalCw)}</td>
+  <td style="font-weight:600;">${fmt(totalPipe+totalCw)}</td></tr>`;
+
+// FORECAST TABLE
+const sortedFc=[...DATA.forecastDeals].sort((a,b)=>b.a-a.a);
+const ft=document.getElementById('forecast-tbl');
+sortedFc.forEach(d=>{
+  const ma=METAS_ANUAL[d.ae],repCw=DATA.cw[d.ae]||0;
+  const accPct=ma?fmtP(Math.round(((repCw+d.a)/ma)*100)):'—';
+  const pill=d.stage==='sign'?'<span class="pill pill-s">Sign</span>':'<span class="pill pill-v">Verbal</span>';
+  ft.innerHTML+=`<tr><td title="${d.d}">${d.d}</td><td style="text-align:right;font-weight:600;">${fmt(d.a)}</td><td style="text-align:center;">${pill}</td><td>${d.ae}</td><td style="text-align:right;font-size:11px;color:var(--text2);">${accPct}</td></tr>`;
+});
+document.getElementById('f-count').textContent=sortedFc.length;
+document.getElementById('f-avg').textContent=fmt(Math.round(totalFc/sortedFc.length));
+document.getElementById('forecast-foot').innerHTML=`<tr class="tot"><td>Total forecast</td><td style="text-align:right;">${fmt(totalFc)}</td><td></td><td></td><td style="text-align:right;font-size:11px;">CW+F = ${fmt(totalCw+totalFc)}</td></tr>`;
+
+// OKR TABLE
+const ot=document.getElementById('okr-tbl');
+names.forEach(n=>{
+  const cnt=DATA.sqoQ1_count[n],arr=DATA.sqoQ1_arr[n];
+  const avg=cnt?Math.round(arr/cnt):0;
+  const tp=DATA.sqo[n]+DATA.neg[n]+DATA.demo[n]+DATA.verbal[n]+DATA.sign[n];
+  const exited=n==='Diego',ramp=n==='Ilse';
+  const badge=exited?' <span style="font-size:10px;color:var(--text3);">(salió)</span>':ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
+  ot.innerHTML+=`<tr><td>${n}${badge}</td><td style="text-align:right;font-weight:600;">${cnt}</td><td style="text-align:right;color:var(--blue);">${fmt(arr)}</td><td style="text-align:right;">${avg?fmt(avg):'—'}</td><td style="text-align:right;">${fmt(tp)}</td></tr>`;
+});
+const totSQc=names.reduce((a,n)=>a+DATA.sqoQ1_count[n],0);
+const totSQa=names.reduce((a,n)=>a+DATA.sqoQ1_arr[n],0);
+ot.innerHTML+=`<tr class="tot"><td>Total</td><td style="text-align:right;">${totSQc}</td><td style="text-align:right;color:var(--blue);">${fmt(totSQa)}</td><td style="text-align:right;">${fmt(Math.round(totSQa/totSQc))}</td><td style="text-align:right;">${fmt(totalPipe)}</td></tr>`;
+
+// CHARTS
+const cd={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
+const xA={ticks:{font:{size:11},color:'#888'},grid:{display:false}};
+const yA=cb=>({ticks:{font:{size:10},color:'#888',callback:cb},grid:{color:'rgba(0,0,0,0.05)'}});
+const cb=v=>v>=1000000?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1000)+'K';
+
+new Chart(document.getElementById('cwFChart'),{type:'bar',
+  data:{labels:names,datasets:[
+    {label:'CW',    data:names.map(n=>DATA.cw[n]),    backgroundColor:'#1aaa72',borderRadius:4},
+    {label:'Verbal',data:names.map(n=>DATA.verbal[n]),backgroundColor:'#7c5ed4',borderRadius:4},
+    {label:'Sign',  data:names.map(n=>DATA.sign[n]),  backgroundColor:'#0e9e8a',borderRadius:4},
+  ]},
+  options:{...cd,scales:{x:{...xA,stacked:true},y:{...yA(cb),stacked:true}}}
+});
+
+new Chart(document.getElementById('pipeDonut'),{type:'doughnut',
+  data:{labels:['SQO','Negotiation','Demo','Verbal','Sign','CW'],
+    datasets:[{data:[totalSqo,totalNeg,totalDemo,totalVerb,totalSign,totalCw],
+      backgroundColor:['#3a6fd4','#d4870a','#e07820','#7c5ed4','#0e9e8a','#1aaa72'],borderWidth:0,hoverOffset:4}]},
+  options:{...cd,cutout:'64%'}
+});
+
+new Chart(document.getElementById('fcChart'),{type:'bar',
+  data:{labels:names,datasets:[
+    {label:'Verbal',data:names.map(n=>DATA.verbal[n]),backgroundColor:'#7c5ed4',borderRadius:4},
+    {label:'Sign',  data:names.map(n=>DATA.sign[n]),  backgroundColor:'#0e9e8a',borderRadius:4},
+  ]},
+  options:{...cd,scales:{x:{...xA,stacked:true},y:{...yA(cb),stacked:true}}}
+});
+
+// Q1 cerrado — fijo ene-mar
+const totalCwQ1 = names.reduce((a,n)=>a+(DATA.cw_q1[n]||0),0);
+const totalCwQ2 = names.reduce((a,n)=>a+(DATA.cw_q2[n]||0),0);
+const totalCwAnual = totalCwQ1 + totalCwQ2;
+
+const q1pct = Math.round((totalCwQ1/META_EQ1)*100);
+const q1color = q1pct>=100?'var(--green)':q1pct>=70?'var(--green)':q1pct>=30?'var(--amber)':'var(--red)';
+document.getElementById('q1-val').textContent = fmt(totalCwQ1);
+document.getElementById('q1-val').style.color = q1color;
+document.getElementById('q1-sub').textContent = fmtP(q1pct) + ' de ' + fmt(META_EQ1) + ' meta Q';
+document.getElementById('q1-sub').style.color = q1color;
+document.getElementById('q1-bar').style.width = Math.min(q1pct,100)+'%';
+document.getElementById('q1-bar').style.background = q1color;
+
+// Q2 en curso — abr-jun
+const q2pct = Math.round((totalCwQ2/META_EQ1)*100);
+const q2color = q2pct>=100?'var(--green)':q2pct>=70?'var(--green)':q2pct>=30?'var(--amber)':'var(--blue)';
+document.getElementById('q2-val').textContent = totalCwQ2>0?fmt(totalCwQ2):'$0';
+document.getElementById('q2-val').style.color = q2color;
+document.getElementById('q2-sub').textContent = fmtP(q2pct) + ' de ' + fmt(META_EQ1) + ' meta Q';
+document.getElementById('q2-sub').style.color = q2color;
+document.getElementById('q2-bar').style.width = Math.min(q2pct,100)+'%';
+document.getElementById('q2-bar').style.background = q2color;
+
+// Barra anual — suma Q1+Q2
+const annualPct = Math.round((totalCwAnual/META_EA)*100);
+const annualColor = annualPct>=100?'var(--green)':annualPct>=50?'var(--green)':annualPct>=25?'var(--amber)':'var(--amber)';
+document.getElementById('ab-left-txt').textContent = 'Acumulado: ' + fmt(totalCwAnual);
+document.getElementById('ab-right-txt').textContent = fmtP(annualPct) + ' de $12M';
+document.getElementById('ab-right-txt').style.color = annualColor;
+document.getElementById('ab-fill-bar').style.width = Math.min(annualPct,100)+'%';
+
+// Pre-render Q1 tab so data shows immediately when clicked
+setTimeout(function(){ try{ renderQ1Results(); }catch(e){ console.log('q1 pending',e); } }, 200);
+
+// Dynamic metric cards
+const pipeTotalCompleto = totalSqo + totalNeg + totalDemo + totalVerb + totalSign;
+document.getElementById('okr-pipe-val').textContent = fmt(pipeTotalCompleto);
+document.getElementById('g-pipe-val').textContent = fmt(pipeTotalCompleto);
+const cov = (pipeTotalCompleto/META_EA).toFixed(1);
+document.getElementById('g-pipe-sub').textContent = 'Cobertura ' + cov + 'x meta anual';
+document.getElementById('g-fc-val').textContent = fmt(totalFc);
+document.getElementById('g-fc-sub').innerHTML = 'CW+F = <strong>' + fmt(totalCw+totalFc) + ' (' + fmtP(Math.round((totalCw+totalFc)/META_EA*100)) + ')</strong>';
+document.getElementById('g-cw-val').textContent = fmt(totalCw);
+document.getElementById('g-cw-sub').innerHTML = '<span style="color:var(--amber);">' + fmtP(attA) + ' del año · Q1 en curso</span>';
+
+new Chart(document.getElementById('sqoCntChart'),{type:'bar',
+  data:{labels:names,datasets:[{label:'SQOs',data:names.map(n=>DATA.sqoQ1_count[n]),backgroundColor:'#3a6fd4',borderRadius:4}]},
+  options:{...cd,scales:{x:xA,y:{...yA(v=>v),ticks:{...yA(v=>v).ticks,stepSize:5}}}}
+});
+
+new Chart(document.getElementById('sqoArrChart'),{type:'bar',
+  data:{labels:names,datasets:[{label:'ARR',data:names.map(n=>DATA.sqoQ1_arr[n]),backgroundColor:'#7aaee8',borderRadius:4}]},
+  options:{...cd,scales:{x:xA,y:yA(cb)}}
+});
+
+// PLAN WEB DATA
+const PW_NL = [
+  {d:'Insumos para la Salud',a:15400,m:'Ene'},
+  {d:'JSG Regiomontana',a:6700,m:'Ene'},
+  {d:'Secnesys',a:6700,m:'Ene'},
+  {d:'Grupo Ticamex',a:6700,m:'Ene'},
+  {d:'Business Growth Intensive',a:6700,m:'Ene'},
+  {d:'EECA Plan Web',a:6700,m:'Ene'},
+  {d:'Jen Car Plan Web',a:6700,m:'Ene'},
+  {d:'Grupo Carvel',a:6700,m:'Ene'},
+  {d:'Stassc Plan Web Mensual',a:2000,m:'Ene'},
+  {d:'Thanks Agency',a:6900,m:'Feb'},
+  {d:'Frara Construcciones',a:6700,m:'Feb'},
+  {d:'Tlatempa y Asociados',a:6700,m:'Feb'},
+  {d:'Chase Your Dream Holdings',a:5000,m:'Feb'},
+  {d:'Corporativo Milenium',a:6700,m:'Mar'},
+  {d:'Diclean Plan Essentials',a:6700,m:'Mar'},
+  {d:'Fábrica de Soluciones Rak',a:6700,m:'Mar'},
+  {d:'Medicojurista Mensual',a:500,m:'Mar'},
+];
+const PW_BI = [
+  {d:'Renovación Grupo Coel',a:15400,m:'Ene'},
+  {d:'Renovación Crediko',a:6900,m:'Ene'},
+  {d:'Renovación Grulla MKT',a:6900,m:'Ene'},
+  {d:'Renovación Green Desarrollos',a:5000,m:'Ene'},
+  {d:'Renovación Bita Home',a:6700,m:'Feb'},
+  {d:'Renovación Vicam',a:6700,m:'Feb'},
+  {d:'Renovación Operfit',a:5000,m:'Feb'},
+  {d:'Renovación Omni Printer',a:20000,m:'Mar'},
+  {d:'Renovación Rakennus (Tru & Co)',a:15400,m:'Mar'},
+  {d:'Renovación Mo Asesoría',a:15400,m:'Mar'},
+  {d:'Renovación CyS Essentials',a:6700,m:'Mar'},
+  {d:'Renovación Grupo Fagro',a:6700,m:'Mar'},
+  {d:'Renovación Avance Topali',a:6700,m:'Mar'},
+  {d:'Renovación CISEF',a:6700,m:'Mar'},
+  {d:'Renovación Cielo Abierto',a:6700,m:'Mar'},
+  {d:'Renovación Best Audio',a:5000,m:'Mar'},
+];
+
+// Fill tables
+const pwNlTbl = document.getElementById('pw-nl-tbl');
+[...PW_NL].sort((a,b)=>b.a-a.a).forEach(d=>{
+  pwNlTbl.innerHTML += `<tr><td>${d.d}</td><td style="text-align:right;color:var(--text3);">${d.m}</td><td style="text-align:right;color:var(--blue);font-weight:600;">${fmt(d.a)}</td></tr>`;
+});
+const nlTot = PW_NL.reduce((s,d)=>s+d.a,0);
+pwNlTbl.innerHTML += `<tr class="tot"><td>Total New Logo</td><td></td><td style="text-align:right;color:var(--blue);">${fmt(nlTot)}</td></tr>`;
+
+const pwBiTbl = document.getElementById('pw-bi-tbl');
+[...PW_BI].sort((a,b)=>b.a-a.a).forEach(d=>{
+  pwBiTbl.innerHTML += `<tr><td>${d.d}</td><td style="text-align:right;color:var(--text3);">${d.m}</td><td style="text-align:right;color:var(--purple);font-weight:600;">${fmt(d.a)}</td></tr>`;
+});
+const biTot = PW_BI.reduce((s,d)=>s+d.a,0);
+pwBiTbl.innerHTML += `<tr class="tot"><td>Total Base Instalada</td><td></td><td style="text-align:right;color:var(--purple);">${fmt(biTot)}</td></tr>`;
+
+// Charts
+const meses = ['Ene','Feb','Mar'];
+const nlMes = meses.map(m=>PW_NL.filter(d=>d.m===m).reduce((s,d)=>s+d.a,0));
+const biMes = meses.map(m=>PW_BI.filter(d=>d.m===m).reduce((s,d)=>s+d.a,0));
+
+new Chart(document.getElementById('pwMonthChart'),{type:'bar',
+  data:{labels:meses,datasets:[
+    {label:'New Logo',data:nlMes,backgroundColor:'#1a56c4',borderRadius:4},
+    {label:'Base Instalada',data:biMes,backgroundColor:'#5b3fb5',borderRadius:4},
+  ]},
+  options:{...cd,scales:{x:{...xA,stacked:true},y:{...yA(cb),stacked:true}}}
+});
+
+new Chart(document.getElementById('pwDonut'),{type:'doughnut',
+  data:{labels:['New Logo','Base Instalada'],
+    datasets:[{data:[nlTot,biTot],backgroundColor:['#1a56c4','#5b3fb5'],borderWidth:0,hoverOffset:4}]},
+  options:{...cd,cutout:'64%'}
+});
+
+
+// COMMITMENT TABLE
+const commitTbl = document.getElementById('commit-tbl');
+const METAS_Q1_FC = {Ernesto:1300000,Karla:1100000,Rossana:750000,Diego:0,Ilse:650000};
+names.forEach(n=>{
+  if(n==='Diego') return; // sin meta
+  const verb = DATA.verbal[n];
+  const sign = DATA.sign[n];
+  const fc   = verb + sign;
+  const cw   = DATA.cw[n];
+  const mq   = METAS_Q1_FC[n]||0;
+  const faltante = Math.max(0, mq - cw);
+  const ramp = n==='Ilse';
+  const badge = ramp?' <span style="font-size:10px;color:var(--amber);">(rampa)</span>':'';
+  const faltColor = 'var(--red)';
+  const faltLabel = ramp?'<span style="color:var(--text3);">en rampa</span>':faltante>0?'-'+fmt(faltante):'✓ meta alcanzada';
+  commitTbl.innerHTML += `<tr>
+    <td>${n}${badge}</td>
+    <td style="text-align:right;color:var(--purple);">${verb>0?fmt(verb):'—'}</td>
+    <td style="text-align:right;color:var(--teal);">${sign>0?fmt(sign):'—'}</td>
+    <td style="text-align:right;font-weight:700;">${fmt(fc)}</td>
+    <td style="text-align:right;color:var(--text3);">${fmt(mq)}</td>
+    <td style="text-align:right;color:var(--green);">${cw>0?fmt(cw):'—'}</td>
+    <td style="text-align:right;color:${faltColor};font-weight:600;">${faltLabel}</td>
+  </tr>`;
+});
+// Total row
+const totalVerb2 = names.reduce((a,n)=>a+DATA.verbal[n],0);
+const totalSign2 = names.reduce((a,n)=>a+DATA.sign[n],0);
+const totalFc2   = totalVerb2+totalSign2;
+const totalCw2   = names.reduce((a,n)=>a+DATA.cw[n],0);
+const totalMq    = Object.values(METAS_Q1_FC).reduce((a,v)=>a+v,0);
+const totalFalt  = Math.max(0, totalMq - totalCw2);
+commitTbl.innerHTML += `<tr class="tot">
+  <td>Total equipo</td>
+  <td style="text-align:right;color:var(--purple);">${fmt(totalVerb2)}</td>
+  <td style="text-align:right;color:var(--teal);">${fmt(totalSign2)}</td>
+  <td style="text-align:right;">${fmt(totalFc2)}</td>
+  <td style="text-align:right;color:var(--text3);">${fmt(totalMq)}</td>
+  <td style="text-align:right;color:var(--green);">${fmt(totalCw2)}</td>
+  <td style="text-align:right;color:var(--red);font-weight:600;">-${fmt(totalFalt)}</td>
+</tr>`;
+
+
+// ── RESULTADOS Q1 ──────────────────────────────────────────
+
+// Deals cerrados Q1 con fecha y mes (hardcoded Q1 histórico)
+const CW_Q1_DEALS = [
+  {d:'SCG Sinergia',         ae:'Ernesto', a:64000,  m:'Feb'},
+  {d:'Expo Agro Guanajuato', ae:'Ernesto', a:59000,  m:'Feb'},
+  {d:'Cobre del Mayo',       ae:'Ernesto', a:65000,  m:'Feb'},
+  {d:'ID Finance',           ae:'Ernesto', a:32000,  m:'Mar'},
+  {d:'Instituto Sanford',    ae:'Ernesto', a:58000,  m:'Mar'},
+  {d:'Amberes',              ae:'Karla',   a:89000,  m:'Mar'},
+  {d:'Envoz',                ae:'Karla',   a:89000,  m:'Mar'},
+  {d:'Corp. Ventas y Gestión',ae:'Karla',  a:89000,  m:'Mar'},
+  {d:'Malow Law',            ae:'Karla',   a:89000,  m:'Mar'},
+  {d:'Trascendia',           ae:'Karla',   a:89000,  m:'Mar'},
+  {d:'Yakult',               ae:'Karla',   a:45000,  m:'Mar'},
+  {d:'Storecheck/RetailBeat',ae:'Rossana', a:41500,  m:'Feb'},
+  {d:'ELAM Expansión',       ae:'Rossana', a:74700,  m:'Ene'},
+  {d:'Fideva (Rentalife)',    ae:'Rossana', a:84600,  m:'Feb'},
+  {d:'Carl Zeiss Vision',    ae:'Rossana', a:39000,  m:'Mar'},
+  {d:'Finopta',              ae:'Diego',   a:71000,  m:'Ene'},
+];
+
+const METAS_Q1_PER_AE = {Ernesto:1300000,Karla:1100000,Rossana:750000,Diego:0,Ilse:650000};
+const STAGE_OPTS = ['','Verbal','Sign','Negociación','Demo'];
+const MES_OPTS   = ['','Abr','May','Jun'];
+const AE_OPTS    = ['','Ernesto','Karla','Rossana','Ilse'];
+
+let q2FcData = [];
+
+function renderQ1Results() {
+  if(!document.getElementById('q1r-cw')) return; // elements not ready
+  // Métricas
+  const totalQ1 = CW_Q1_DEALS.reduce((s,d)=>s+d.a,0);
+  const q1pctTotal = Math.round(totalQ1/3000000*100);
+  const tSqos = names.reduce((a,n)=>a+DATA.sqoQ1_count[n],0);
+  const tArr  = names.reduce((a,n)=>a+DATA.sqoQ1_arr[n],0);
+
+  document.getElementById('q1r-cw').textContent = fmt(totalQ1);
+  document.getElementById('q1r-cw-sub').innerHTML = '<span style="color:var(--green);">' + fmtP(q1pctTotal) + ' de meta $3M</span>';
+  document.getElementById('q1r-sqos').textContent = tSqos;
+  document.getElementById('q1r-sqos-sub').textContent = tSqos + ' SQOs · ' + names.filter(n=>DATA.sqoQ1_count[n]>0).map(n=>n+': '+DATA.sqoQ1_count[n]).join(' · ');
+  document.getElementById('q1r-arr').textContent = fmt(tArr);
+
+  // Progress bars por AE
+  const pg = document.getElementById('q1r-prog');
+  pg.innerHTML = '';
+  names.forEach(n=>{
+    const meta = METAS_Q1_PER_AE[n];
+    const val  = CW_Q1_DEALS.filter(d=>d.ae===n).reduce((s,d)=>s+d.a,0);
+    const pct  = meta ? Math.round(val/meta*100) : null;
+    const badge = n==='Diego'?'<span style="font-size:10px;background:var(--bg4);color:var(--text3);padding:1px 7px;border-radius:10px;margin-left:5px;">salió</span>':
+                  n==='Ilse' ?'<span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 7px;border-radius:10px;margin-left:5px;">rampa</span>':'';
+    const col  = pct!==null?ac(pct):'var(--text3)';
+    pg.innerHTML += `<div class="prog-row">
+      <div class="prog-top">
+        <span class="prog-name">${n}${badge}</span>
+        <span class="prog-nums">${fmt(val)} cerrado · ${meta?fmt(meta):'—'} meta · <span style="color:${col}">${pct!==null?fmtP(pct):''}</span></span>
+      </div>
+      <div class="prog-bg">
+        <div class="prog-fill" style="width:${pct?Math.min(pct,100):0}%;background:${col};"></div>
+        ${meta?`<div class="prog-marker" style="left:100%;"></div>`:''}
+      </div>
+    </div>`;
+  });
+
+  // Tabla cierres Q1
+  const tbl = document.getElementById('q1r-deals-tbl');
+  tbl.innerHTML = '';
+  const mesOrd = {Ene:1,Feb:2,Mar:3};
+  const sorted = [...CW_Q1_DEALS].sort((a,b)=>b.a-a.a);
+  const meses = ['Ene','Feb','Mar'];
+  meses.forEach(mes=>{
+    const ds = sorted.filter(d=>d.m===mes);
+    if(!ds.length) return;
+    const subtot = ds.reduce((s,d)=>s+d.a,0);
+    tbl.innerHTML += `<tr><td colspan="4" style="padding:7px 8px;background:var(--bg3);font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;">${mes === 'Ene'?'Enero':mes==='Feb'?'Febrero':'Marzo'} — ${fmt(subtot)}</td></tr>`;
+    ds.forEach(d=>{
+      const aeColor = {Ernesto:'#dbeafe',Karla:'#fce7f3',Rossana:'#ede9fe',Diego:'#f3f4f6',Ilse:'#d1fae5'};
+      tbl.innerHTML += `<tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 12px;font-weight:600;">${d.d}</td>
+        <td style="padding:8px 12px;text-align:center;"><span style="background:${aeColor[d.ae]||'#f3f4f6'};padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;">${d.ae}</span></td>
+        <td style="padding:8px 12px;text-align:right;font-weight:700;color:var(--green);">${fmt(d.a)}</td>
+        <td style="padding:8px 12px;text-align:center;color:var(--text3);">${d.m}</td>
+      </tr>`;
+    });
+  });
+  const totQ1 = CW_Q1_DEALS.reduce((s,d)=>s+d.a,0);
+  tbl.innerHTML += `<tr class="tot"><td>Total Q1</td><td></td><td style="text-align:right;color:var(--green);">${fmt(totQ1)}</td><td></td></tr>`;
+
+  // Forecast Q2 editable
+  loadForecastQ2();
+  renderForecastQ2();
+}
+
+function loadForecastQ2() {
+  var saved = localStorage.getItem('forecastQ2_legalario');
+  if(saved) {
+    try {
+      var parsed = JSON.parse(saved);
+      // Verificar que tenga datos reales (al menos un deal con nombre)
+      var tieneData = parsed.some(function(r){ return r.d && r.d.trim() !== ''; });
+      if(tieneData) {
+        q2FcData = parsed;
+        return;
+      }
+    } catch(e) {}
+  }
+  // Primera vez o localStorage vacío: pre-llenar con deals de Verbal y Sign
+  q2FcData = DATA.forecastDeals.map(function(d) {
+    return {
+      d:     d.d,
+      ae:    d.ae,
+      a:     d.a,
+      m:     '',
+      stage: d.stage === 'sign' ? 'Sign' : 'Verbal'
+    };
+  });
+  // Agregar 5 filas vacías al final para nuevos deals
+  for(var i=0; i<5; i++) q2FcData.push({d:'',ae:'',a:'',m:'',stage:''});
+}
+
+function renderForecastQ2() {
+  const tbody = document.getElementById('q2-fc-body');
+  tbody.innerHTML = '';
+  q2FcData.forEach((row,i)=>{
+    const monto = parseFloat(row.a)||0;
+    tbody.innerHTML += `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:4px 8px;">
+        <input type="text" value="${row.d||''}" onchange="q2FcData[${i}].d=this.value;updateFcTotal()"
+          style="width:100%;border:none;background:transparent;font-family:var(--font);font-size:12px;color:var(--text);outline:none;padding:4px;"
+          placeholder="Nombre del negocio...">
+      </td>
+      <td style="padding:4px 8px;">
+        <select onchange="q2FcData[${i}].ae=this.value;updateFcTotal()"
+          style="width:100%;border:none;background:transparent;font-family:var(--font);font-size:12px;color:var(--text);outline:none;cursor:pointer;">
+          ${AE_OPTS.map(o=>`<option value="${o}" ${row.ae===o?'selected':''}>${o||'—'}</option>`).join('')}
+        </select>
+      </td>
+      <td style="padding:4px 8px;">
+        <input type="text" value="${row.a?'$'+Number(row.a).toLocaleString('en-US'):''}"
+          onfocus="this.value=this.value.replace(/[$,]/g,'')"
+          onblur="var n=parseFloat(this.value.replace(/[$,]/g,''))||0; q2FcData[${i}].a=n||''; this.value=n?'$'+n.toLocaleString('en-US'):''; updateFcTotal()"
+          onchange="var n=parseFloat(this.value.replace(/[$,]/g,''))||0; q2FcData[${i}].a=n||''; updateFcTotal()"
+          style="width:100%;border:none;background:transparent;font-family:var(--font);font-size:12px;color:var(--text);text-align:right;outline:none;padding:4px;"
+          placeholder="$0">
+      </td>
+      <td style="padding:4px 8px;">
+        <select onchange="q2FcData[${i}].m=this.value"
+          style="width:100%;border:none;background:transparent;font-family:var(--font);font-size:12px;color:var(--text);outline:none;cursor:pointer;">
+          ${MES_OPTS.map(o=>`<option value="${o}" ${row.m===o?'selected':''}>${o||'—'}</option>`).join('')}
+        </select>
+      </td>
+      <td style="padding:4px 8px;text-align:center;">
+        <select onchange="q2FcData[${i}].stage=this.value"
+          style="width:100%;border:none;background:transparent;font-family:var(--font);font-size:11px;color:var(--purple);outline:none;cursor:pointer;">
+          ${STAGE_OPTS.map(o=>`<option value="${o}" ${row.stage===o?'selected':''}>${o||'—'}</option>`).join('')}
+        </select>
+      </td>
+      <td style="padding:4px 8px;text-align:center;">
+        <button onclick="eliminarFila(${i})" style="border:none;background:none;color:var(--text3);cursor:pointer;font-size:14px;">✕</button>
+      </td>
+    </tr>`;
+  });
+  updateFcTotal();
+}
+
+function updateFcTotal() {
+  const total = q2FcData.reduce((s,r)=>s+(parseFloat(r.a)||0),0);
+  document.getElementById('q1r-fc-total').textContent = total>0?fmt(total):'$0';
+}
+
+function guardarForecastQ2() {
+  localStorage.setItem('forecastQ2_legalario', JSON.stringify(q2FcData));
+  const saved = document.getElementById('q1r-fc-saved');
+  saved.style.display='block';
+  setTimeout(()=>saved.style.display='none', 2500);
+}
+
+function limpiarFila() {
+  q2FcData.push({d:'',ae:'',a:'',m:'',stage:''});
+  renderForecastQ2();
+}
+
+function eliminarFila(i) {
+  q2FcData.splice(i,1);
+  renderForecastQ2();
+}
+
+function resetearForecastQ2() {
+  if(!confirm('¿Recargar desde HubSpot? Se perderán los cambios no guardados.')) return;
+  localStorage.removeItem('forecastQ2_legalario');
+  q2FcData = [];
+  loadForecastQ2();
+  renderForecastQ2();
+  document.getElementById('q1r-fc-saved').textContent = '↺ Recargado desde HubSpot';
+  document.getElementById('q1r-fc-saved').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('q1r-fc-saved').style.display='none';
+    document.getElementById('q1r-fc-saved').textContent='✓ Guardado correctamente';
+  }, 2500);
+}
+</script>
+</body>
+</html>
