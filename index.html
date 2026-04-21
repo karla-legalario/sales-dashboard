@@ -8,39 +8,51 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   :root{
-    --bg:#f0f4f8;--bg2:#ffffff;--bg3:#e4ecf4;--bg4:#d5e2ee;
-    --border:rgba(30,80,140,0.10);--border2:rgba(30,80,140,0.18);
-    --text:#0d1f3c;--text2:#2c4a6e;--text3:#6b8aaa;
-    --green:#0e8a5f;--green-bg:rgba(14,138,95,0.09);
-    --amber:#b86e00;--amber-bg:rgba(184,110,0,0.09);
-    --red:#b03030;--red-bg:rgba(176,48,48,0.09);
-    --blue:#1a56c4;--blue-bg:rgba(26,86,196,0.09);
-    --purple:#5b3fb5;--purple-bg:rgba(91,63,181,0.09);
-    --teal:#0b7a6a;--teal-bg:rgba(11,122,106,0.09);
+    /* Legalario Brand Colors */
+    --bg:#f4f7fb;--bg2:#ffffff;--bg3:#eef2f8;--bg4:#dde5f0;
+    --border:rgba(10,36,99,0.09);--border2:rgba(10,36,99,0.16);
+    --text:#0a1628;--text2:#2d4a7a;--text3:#7a93b8;
+    /* Legalario Orange */
+    --orange:#f97316;--orange-bg:rgba(249,115,22,0.09);
+    /* Legalario Blue */
+    --blue:#1447e6;--blue-bg:rgba(20,71,230,0.09);
+    /* Semantic */
+    --green:#059669;--green-bg:rgba(5,150,105,0.09);
+    --amber:#d97706;--amber-bg:rgba(217,119,6,0.09);
+    --red:#dc2626;--red-bg:rgba(220,38,38,0.09);
+    --purple:#7c3aed;--purple-bg:rgba(124,58,237,0.09);
+    --teal:#0891b2;--teal-bg:rgba(8,145,178,0.09);
     --font:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
-  .topbar{position:sticky;top:0;z-index:100;background:rgba(220,232,245,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
-  .brand{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text);}
-  .live-badge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);}
-  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+  body{font-family:var(--font);background:linear-gradient(160deg,#f4f7fb 0%,#eef2f8 50%,#f4f7fb 100%);color:var(--text);min-height:100vh;}
+  .topbar{position:sticky;top:0;z-index:100;background:rgba(10,22,40,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
+  .brand{font-size:14px;font-weight:700;letter-spacing:.01em;color:#ffffff;display:flex;align-items:center;gap:8px;}
+  .brand-logo{display:flex;align-items:center;gap:2px;}
+  .brand-lega{color:#ffffff;}
+  .brand-lario{color:#f97316;}
+  .brand-divider{width:1px;height:20px;background:rgba(255,255,255,.2);margin:0 10px;}
+  .brand-sub{font-size:11px;font-weight:400;color:rgba(255,255,255,.5);letter-spacing:.04em;text-transform:uppercase;}
+  .live-badge{display:flex;align-items:center;gap:5px;font-size:11px;color:#34d399;}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:#34d399;animation:pulse 2s infinite;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .date-badge{font-size:11px;color:var(--text3);font-family:var(--mono);background:var(--bg3);padding:4px 10px;border-radius:6px;border:1px solid var(--border);}
+  .date-badge{font-size:11px;color:rgba(255,255,255,.5);font-family:var(--mono);background:rgba(255,255,255,.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.1);}
   .main{max-width:1280px;margin:0 auto;padding:2rem;}
-  .tabs{display:flex;gap:2px;margin-bottom:1.75rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;}
-  .tab{font-size:13px;padding:6px 18px;border-radius:7px;cursor:pointer;color:var(--text2);background:transparent;border:none;font-family:var(--font);transition:all .2s;}
-  .tab.active{background:var(--bg2);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+  .tabs{display:flex;gap:0;margin-bottom:1.75rem;background:transparent;border-bottom:2px solid var(--border);width:100%;padding:0;}
+  .tab{font-size:13px;padding:10px 20px;cursor:pointer;color:var(--text3);background:transparent;border:none;font-family:var(--font);font-weight:500;transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-2px;}
+  .tab:hover{color:var(--text);}
+  .tab.active{color:var(--blue);font-weight:600;border-bottom:2px solid var(--orange);margin-bottom:-2px;}
   .view{display:none;}.view.active{display:block;}
   .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:1.5rem;}
-  .mc{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.25rem;box-shadow:0 2px 8px rgba(30,80,140,0.06);}
-  .mc-lbl{font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;}
-  .mc-val{font-size:23px;font-weight:700;letter-spacing:-.02em;}
-  .mc-sub{font-size:11px;margin-top:4px;color:var(--text2);}
-  .section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;box-shadow:0 2px 8px rgba(30,80,140,0.06);}
-  .sec-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:1.1rem;letter-spacing:.03em;text-transform:uppercase;}
+  .mc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem;box-shadow:0 1px 4px rgba(10,22,40,0.06);border-left:3px solid var(--border2);transition:box-shadow .2s;}
+  .mc:hover{box-shadow:0 4px 16px rgba(10,22,40,0.10);}
+  .mc-lbl{font-size:10px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
+  .mc-val{font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--text);}
+  .mc-sub{font-size:11px;margin-top:5px;color:var(--text2);}
+  .section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(10,22,40,0.06);}
+  .sec-title{font-size:11px;font-weight:700;color:var(--text3);margin-bottom:1.1rem;letter-spacing:.1em;text-transform:uppercase;}
   .q-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem;}
-  .q-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;}
+  .q-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;transition:border-color .2s;}
   .q-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
   .q-val{font-size:18px;font-weight:600;margin-bottom:2px;}
   .q-sub{font-size:11px;color:var(--text2);margin-bottom:8px;}
@@ -88,10 +100,14 @@
 <body>
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:1.5rem;">
-    <span class="brand" style="color:#0d1f3c;font-size:14px;letter-spacing:.1em;">LEGALARIO · SALES</span>
-    <span class="live-badge"><span class="live-dot"></span>Datos al 17 Abr 2026</span>
+    <div class="brand" style="display:flex;align-items:center;gap:10px;">
+      <img src="data:image/png;base64,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" alt="LegaLario" style="height:26px;width:auto;object-fit:contain;">
+      <div style="width:1px;height:20px;background:rgba(255,255,255,.2);"></div>
+      <span style="font-size:11px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;">Sales Dashboard</span>
+    </div>
+    <span class="live-badge"><span class="live-dot"></span>Datos al 21 Abr 2026</span>
   </div>
-  <span class="date-badge">17 Abr 2026</span>
+  <span class="date-badge">21 Abr 2026</span>
 </div>
 
 <div class="main">
@@ -101,7 +117,8 @@
     <div class="tab" onclick="switchTab('forecast')">Forecast</div>
     <div class="tab" onclick="switchTab('okr')">OKR Pipeline</div>
     <div class="tab" onclick="switchTab('planweb')">Plan Web</div>
-    <div class="tab" onclick="switchTab('q1results')" style="color:var(--green);font-weight:700;">✓ Resultados Q1</div>
+    <div class="tab" onclick="switchTab('q1results')" style="color:var(--orange);font-weight:700;">✓ Resultados Q1</div>
+    <div class="tab" onclick="switchTab('q2results')" style="color:var(--blue);font-weight:700;">▶ Resultados Q2</div>
   </div>
 
   <!-- GENERAL -->
@@ -709,6 +726,8 @@
         </div>
       </div>
       <p style="font-size:11px;color:var(--text3);margin-bottom:12px;">Edita directamente en la tabla. Los cambios se guardan en tu browser. Haz clic en cualquier celda para editar.</p>
+      <!-- Resumen por mes — se actualiza automáticamente -->
+      <div id="q2fc-summary" style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;"></div>
       <div style="overflow-x:auto;">
         <table class="rtbl" id="q2-forecast-tbl" style="min-width:600px;">
           <thead>
@@ -729,13 +748,140 @@
 
   </div>
 
-  <p class="upd-note">Datos extraídos de HubSpot · 17 Abr 2026 · Para actualizar, contacta a Karla</p>
+  <!-- RESULTADOS Q2 -->
+  <div id="view-q2results" class="view">
+
+    <!-- HEADER BADGE -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;">
+      <span style="background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;">▶ Q2 EN CURSO · Abr–Jun 2026</span>
+      <span style="font-size:11px;color:var(--text3);">Actualizado al 21 Abr 2026 · se actualiza conforme avanza el trimestre</span>
+    </div>
+
+    <!-- MÉTRICAS TOP -->
+    <div class="metrics" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1.25rem;">
+      <div class="mc" style="border-left-color:var(--blue);">
+        <div class="mc-lbl">CW Q2 acumulado</div>
+        <div class="mc-val" id="q2r-cw" style="color:var(--blue);">—</div>
+        <div class="mc-sub" id="q2r-cw-sub"></div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">Meta Q2</div>
+        <div class="mc-val" style="color:var(--text3);">$3.00M</div>
+        <div class="mc-sub">New Logos abr–jun 2026</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">SQOs generados Q2</div>
+        <div class="mc-val" id="q2r-sqos" style="color:var(--blue);">—</div>
+        <div class="mc-sub" id="q2r-sqos-sub"></div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">ARR generado Q2</div>
+        <div class="mc-val" id="q2r-arr" style="color:var(--blue);">—</div>
+        <div class="mc-sub">Valor total SQOs abr–jun</div>
+      </div>
+    </div>
+
+    <!-- MÉTRICAS ROW 2 -->
+    <div class="metrics" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1.5rem;">
+      <div class="mc">
+        <div class="mc-lbl">Forecast Q2 (V+S)</div>
+        <div class="mc-val" id="q2r-fc" style="color:var(--purple);">—</div>
+        <div class="mc-sub" id="q2r-fc-sub"></div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">CW + Forecast Q2</div>
+        <div class="mc-val" id="q2r-cwf" style="color:var(--green);">—</div>
+        <div class="mc-sub" id="q2r-cwf-sub"></div>
+      </div>
+      <div class="mc" style="background:var(--green-bg);border-left-color:var(--green);">
+        <div class="mc-lbl">Pipeline coverage Q2</div>
+        <div class="mc-val" style="color:var(--green);">12.9x</div>
+        <div class="mc-sub" style="color:var(--green);">✅ $38.6M vs meta $3M</div>
+      </div>
+      <div class="mc">
+        <div class="mc-lbl">Ticket promedio Q2</div>
+        <div class="mc-val" id="q2r-ticket">—</div>
+        <div class="mc-sub">ARR por SQO generado</div>
+      </div>
+    </div>
+
+    <!-- PROGRESO POR AE -->
+    <div class="section">
+      <p class="sec-title">CW Q2 por AE — vs meta</p>
+      <div id="q2r-prog"></div>
+    </div>
+
+    <!-- SQOs Q2 por AE -->
+    <div class="section">
+      <p class="sec-title">SQOs Q2 por AE — número, ARR y deal source</p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl">
+          <thead><tr>
+            <th style="text-align:left;">AE</th>
+            <th># SQOs Q2</th><th>ARR Q2</th><th>Ticket prom.</th>
+            <th style="color:#1e40af;">MKT</th>
+            <th style="color:#9d174d;">Sales</th>
+            <th style="color:#5b21b6;">Sales Dev</th>
+            <th style="color:#065f46;">Referral</th>
+          </tr></thead>
+          <tbody id="q2r-sqo-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- NEGOCIOS CERRADOS Q2 -->
+    <div class="section">
+      <p class="sec-title">Negocios cerrados Q2 2026 <span id="q2r-cw-badge" style="font-size:11px;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:8px;margin-left:6px;text-transform:none;font-weight:600;"></span></p>
+      <div style="overflow-x:auto;">
+        <table class="rtbl">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;">Negocio</th>
+              <th>AE</th><th>Valor ARR</th><th>Mes cierre</th>
+            </tr>
+          </thead>
+          <tbody id="q2r-deals-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DEAL SOURCE Q2 -->
+    <div class="grid2">
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">Deal Source Q2 — SQOs generados</p>
+        <table class="rtbl">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;">Fuente</th>
+              <th># SQOs</th><th>% del total</th>
+            </tr>
+          </thead>
+          <tbody id="q2r-src-tbl"></tbody>
+        </table>
+      </div>
+      <div class="section" style="margin-bottom:0;">
+        <p class="sec-title">Avance Q2 vs Q1 — comparativo</p>
+        <table class="rtbl">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:2px solid var(--border);">
+              <th style="text-align:left;">Métrica</th>
+              <th>Q1 Final</th><th>Q2 Actual</th><th>Δ</th>
+            </tr>
+          </thead>
+          <tbody id="q2r-comp-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="upd-note">Datos extraídos de HubSpot · 21 Abr 2026 · Para actualizar, contacta a Karla</p>
 </div>
 
 <script>
 function switchTab(id){
-  const tabIds=['general','reps','forecast','okr','planweb','q1results']; document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabIds[i]===id));
-  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+id)); if(id==='q1results') setTimeout(renderQ1Results,50);
+  const tabIds=['general','reps','forecast','okr','planweb','q1results','q2results']; document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',tabIds[i]===id));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+id)); if(id==='q1results') setTimeout(renderQ1Results,50); if(id==='q2results') setTimeout(renderQ2Results,50);
 }
 const fmt=n=>n>=1000000?'$'+(n/1000000).toFixed(2)+'M':'$'+(n/1000).toFixed(0)+'K';
 const fmtP=n=>Math.round(n)+'%';
@@ -751,15 +897,15 @@ const DATA={
   cw_q1:  {Ernesto:278000,  Karla:490000,   Rossana:239800, Diego:71000, Ilse:0},
   cw_q2:  {Ernesto:0,       Karla:89000,    Rossana:0,      Diego:0,     Ilse:0},
   cw:     {Ernesto:278000,  Karla:579000,   Rossana:239800, Diego:71000, Ilse:0},
-  sqo:    {Ernesto:3680000, Karla:6851500,  Rossana:980000, Diego:250000,Ilse:0},
-  sqo_count: {Ernesto:8,  Karla:12, Rossana:7,  Diego:1, Ilse:0},
-  neg_count: {Ernesto:23, Karla:11, Rossana:19, Diego:1, Ilse:0},
-  demo_count:{Ernesto:9,  Karla:8,  Rossana:3,  Diego:0, Ilse:0},
+  sqo:    {Ernesto:3680000, Karla:8051500,  Rossana:1040000,Diego:250000,Ilse:0},
+  sqo_count: {Ernesto:8,  Karla:14, Rossana:8,  Diego:1, Ilse:0},
+  neg_count: {Ernesto:24, Karla:11, Rossana:19, Diego:1, Ilse:0},
+  demo_count:{Ernesto:10, Karla:8,  Rossana:3,  Diego:0, Ilse:0},
   verb_count:{Ernesto:3,  Karla:3,  Rossana:2,  Diego:0, Ilse:0},
   sign_count:{Ernesto:4,  Karla:1,  Rossana:3,  Diego:0, Ilse:0},
   cw_count:  {Ernesto:5,  Karla:7,  Rossana:4,  Diego:1, Ilse:0},
-  neg:    {Ernesto:6857000, Karla:3955100,  Rossana:3102045,Diego:960000,Ilse:0},
-  demo:   {Ernesto:1621400, Karla:4350000,  Rossana:179000, Diego:0,     Ilse:0},
+  neg:    {Ernesto:6901000, Karla:3955100,  Rossana:3102045,Diego:960000,Ilse:0},
+  demo:   {Ernesto:1671400, Karla:4350000,  Rossana:179000, Diego:0,     Ilse:0},
   verbal: {Ernesto:3132600, Karla:2667600,  Rossana:134000, Diego:0,     Ilse:0},
   sign:   {Ernesto:208000,  Karla:2500000,  Rossana:297800, Diego:0,     Ilse:0},
   sqoQ1_count:{Ernesto:47,Karla:27,Rossana:48,Diego:0,Ilse:26},
@@ -1413,7 +1559,7 @@ function renderForecastQ2() {
           placeholder="$0">
       </td>
       <td style="padding:4px 8px;">
-        <select onchange="q2FcData[${i}].m=this.value"
+        <select onchange="q2FcData[${i}].m=this.value;updateFcTotal()"
           style="width:100%;border:none;background:transparent;font-family:var(--font);font-size:12px;color:var(--text);outline:none;cursor:pointer;">
           ${MES_OPTS.map(o=>`<option value="${o}" ${row.m===o?'selected':''}>${o||'—'}</option>`).join('')}
         </select>
@@ -1435,6 +1581,31 @@ function renderForecastQ2() {
 function updateFcTotal() {
   const total = q2FcData.reduce((s,r)=>s+(parseFloat(r.a)||0),0);
   document.getElementById('q1r-fc-total').textContent = total>0?fmt(total):'$0';
+  // Resumen por mes
+  const sumEl = document.getElementById('q2fc-summary');
+  if(!sumEl) return;
+  const meses = ['Abr','May','Jun'];
+  const mesColors = {Abr:'var(--blue)',May:'var(--purple)',Jun:'var(--teal)'};
+  const mesBg = {Abr:'var(--blue-bg)',May:'var(--purple-bg)',Jun:'#ccfbf1'};
+  let html = '';
+  meses.forEach(m=>{
+    const rows = q2FcData.filter(r=>r.m===m && parseFloat(r.a)>0);
+    const tot = rows.reduce((s,r)=>s+(parseFloat(r.a)||0),0);
+    const label = m==='Abr'?'Abril':m==='May'?'Mayo':'Junio';
+    html += `<div style="background:${mesBg[m]};border-radius:8px;padding:8px 14px;min-width:130px;border:1px solid ${tot?mesColors[m]:'transparent'};">
+      <div style="font-size:10px;color:${mesColors[m]};font-weight:700;text-transform:uppercase;letter-spacing:.05em;">${label}</div>
+      <div style="font-size:18px;font-weight:700;color:${tot?mesColors[m]:'var(--text3)'};">${tot?fmt(tot):'—'}</div>
+      <div style="font-size:10px;color:var(--text3);">${rows.length>0?rows.length+' deal'+(rows.length>1?'s':''):'sin deals aún'}</div>
+    </div>`;
+  });
+  const sinMes = q2FcData.filter(r=>!r.m && parseFloat(r.a)>0);
+  const totSinMes = sinMes.reduce((s,r)=>s+(parseFloat(r.a)||0),0);
+  if(totSinMes) html += `<div style="background:var(--bg3);border-radius:8px;padding:8px 14px;min-width:120px;">
+    <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Sin mes</div>
+    <div style="font-size:16px;font-weight:700;color:var(--text3);">${fmt(totSinMes)}</div>
+    <div style="font-size:10px;color:var(--text3);">${sinMes.length} deal${sinMes.length>1?'s':''}</div>
+  </div>`;
+  sumEl.innerHTML = html || '<span style="font-size:11px;color:var(--text3);">— Agrega deals con mes de cierre para ver el resumen —</span>';
 }
 
 function guardarForecastQ2() {
@@ -1467,6 +1638,148 @@ function resetearForecastQ2() {
     document.getElementById('q1r-fc-saved').textContent='✓ Guardado correctamente';
   }, 2500);
 }
+// ── RESULTADOS Q2 ──────────────────────────────────────────
+const CW_Q2_DEALS = [
+  {d:'Promaizmar',ae:'Karla',a:89000,m:'Abr'},
+  // Se agregan conforme se cierran
+];
+
+function renderQ2Results() {
+  if(!document.getElementById('q2r-cw')) return;
+
+  // ── Métricas ──
+  const totalQ2cw = CW_Q2_DEALS.reduce((s,d)=>s+d.a,0);
+  const pctQ2 = Math.round(totalQ2cw/3000000*100);
+  const tSqosQ2 = 17; // SQOs Q2 al 21 Abr
+  const tArrQ2  = 1315500;
+  const tkQ2    = Math.round(tArrQ2/tSqosQ2);
+  const tFcQ2   = totalVerb+totalSign;
+  const cwfQ2   = totalQ2cw+tFcQ2;
+
+  document.getElementById('q2r-cw').textContent = fmt(totalQ2cw);
+  document.getElementById('q2r-cw-sub').innerHTML = '<span style="color:var(--blue);">'+fmtP(pctQ2)+' de meta $3M · en curso</span>';
+  document.getElementById('q2r-sqos').textContent = tSqosQ2;
+  document.getElementById('q2r-sqos-sub').textContent = 'Ernesto 8 · Karla 3 · Rossana 6';
+  document.getElementById('q2r-arr').textContent = fmt(tArrQ2);
+  document.getElementById('q2r-fc').textContent = fmt(tFcQ2);
+  document.getElementById('q2r-fc-sub').textContent = 'Verbal '+fmt(totalVerb)+' · Sign '+fmt(totalSign);
+  document.getElementById('q2r-cwf').textContent = fmt(cwfQ2);
+  document.getElementById('q2r-cwf-sub').innerHTML = '<span style="color:var(--green);">'+fmtP(Math.round(cwfQ2/3000000*100))+' de meta Q2</span>';
+  document.getElementById('q2r-ticket').textContent = fmt(tkQ2);
+  document.getElementById('q2r-cw-badge').textContent = CW_Q2_DEALS.length+' deal'+(CW_Q2_DEALS.length!==1?'s':'')+' · '+fmt(totalQ2cw);
+
+  // ── Progress bars por AE ──
+  const pg2 = document.getElementById('q2r-prog');
+  pg2.innerHTML = '';
+  const METAS_Q = {Ernesto:1300000,Karla:1100000,Rossana:750000,Ilse:650000};
+  const aeColors2 = {Ernesto:'#dbeafe',Karla:'#fce7f3',Rossana:'#ede9fe',Ilse:'#d1fae5'};
+  ['Ernesto','Karla','Rossana','Ilse'].forEach(n=>{
+    const val = CW_Q2_DEALS.filter(d=>d.ae===n).reduce((s,d)=>s+d.a,0);
+    const meta = METAS_Q[n];
+    const pct = Math.round(val/meta*100);
+    const col = ac(pct);
+    const badge = n==='Ilse'?'<span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 7px;border-radius:10px;margin-left:5px;">rampa</span>':'';
+    pg2.innerHTML += `<div class="prog-row">
+      <div class="prog-top">
+        <span class="prog-name">${n}${badge}</span>
+        <span class="prog-nums">${fmt(val)} cerrado · ${fmt(meta)} meta · <span style="color:${col}">${fmtP(pct)}</span></span>
+      </div>
+      <div class="prog-bg">
+        <div class="prog-fill" style="width:${Math.min(pct,100)}%;background:${col};"></div>
+      </div>
+    </div>`;
+  });
+
+  // ── SQOs Q2 por AE ──
+  const q2SqoTbl = document.getElementById('q2r-sqo-tbl');
+  q2SqoTbl.innerHTML = '';
+  const SQO_Q2_DATA = {
+    Ernesto:{count:8, arr:448000, src:{MKT:4,Sales:4,SalesDev:0,Referral:0}},
+    Karla:  {count:3, arr:439000, src:{MKT:0,Sales:2,SalesDev:1,Referral:0}},
+    Rossana:{count:6, arr:428500, src:{MKT:3,Sales:0,SalesDev:2,Referral:1}},
+    Ilse:   {count:0, arr:0,      src:{MKT:0,Sales:0,SalesDev:0,Referral:0}},
+  };
+  function sp3(n,tot,bg,col){ if(!n) return '<span style="color:var(--text3);">—</span>'; const p=tot?Math.round(n/tot*100):0; return `<span style="background:${bg};color:${col};padding:2px 8px;border-radius:20px;font-size:11px;white-space:nowrap;">${n}&nbsp;<span style="font-size:10px;opacity:.65;">${p}%</span></span>`; }
+  const aeC2={Ernesto:'#dbeafe',Karla:'#fce7f3',Rossana:'#ede9fe',Ilse:'#d1fae5'};
+  ['Ernesto','Karla','Rossana'].forEach(n=>{
+    const d=SQO_Q2_DATA[n]; if(!d.count) return;
+    const tk=Math.round(d.arr/d.count);
+    q2SqoTbl.innerHTML+=`<tr>
+      <td style="font-weight:600;"><span style="background:${aeC2[n]};padding:2px 8px;border-radius:20px;font-size:11px;">${n}</span></td>
+      <td style="text-align:right;font-weight:700;">${d.count}</td>
+      <td style="text-align:right;color:var(--blue);">${fmt(d.arr)}</td>
+      <td style="text-align:right;">${fmt(tk)}</td>
+      <td style="text-align:center;">${sp3(d.src.MKT,d.count,'#dbeafe','#1e40af')}</td>
+      <td style="text-align:center;">${sp3(d.src.Sales,d.count,'#fce7f3','#9d174d')}</td>
+      <td style="text-align:center;">${sp3(d.src.SalesDev,d.count,'#ede9fe','#5b21b6')}</td>
+      <td style="text-align:center;">${sp3(d.src.Referral,d.count,'#d1fae5','#065f46')}</td>
+    </tr>`;
+  });
+  q2SqoTbl.innerHTML+=`<tr class="tot">
+    <td>Total Q2</td><td style="text-align:right;">17</td>
+    <td style="text-align:right;color:var(--blue);">${fmt(1315500)}</td>
+    <td style="text-align:right;">${fmt(77382)}</td>
+    <td style="text-align:center;"><span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:20px;font-size:11px;">7&nbsp;<span style="opacity:.65;">41%</span></span></td>
+    <td style="text-align:center;"><span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:20px;font-size:11px;">6&nbsp;<span style="opacity:.65;">35%</span></span></td>
+    <td style="text-align:center;"><span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:20px;font-size:11px;">3&nbsp;<span style="opacity:.65;">18%</span></span></td>
+    <td style="text-align:center;"><span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:20px;font-size:11px;">1&nbsp;<span style="opacity:.65;">6%</span></span></td>
+  </tr>`;
+
+  // ── Negocios cerrados Q2 ──
+  const dt2 = document.getElementById('q2r-deals-tbl');
+  dt2.innerHTML = '';
+  if(CW_Q2_DEALS.length===0){
+    dt2.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text3);">— Aún no hay cierres registrados en Q2 —</td></tr>';
+  } else {
+    const aeColor2={Ernesto:'#dbeafe',Karla:'#fce7f3',Rossana:'#ede9fe',Diego:'#f3f4f6',Ilse:'#d1fae5'};
+    [...CW_Q2_DEALS].sort((a,b)=>b.a-a.a).forEach(d=>{
+      dt2.innerHTML+=`<tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:8px 12px;font-weight:600;">${d.d}</td>
+        <td style="padding:8px 12px;text-align:center;"><span style="background:${aeColor2[d.ae]||'#f3f4f6'};padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;">${d.ae}</span></td>
+        <td style="padding:8px 12px;text-align:right;font-weight:700;color:var(--green);">${fmt(d.a)}</td>
+        <td style="padding:8px 12px;text-align:center;color:var(--text3);">${d.m}</td>
+      </tr>`;
+    });
+    dt2.innerHTML+=`<tr class="tot"><td>Total Q2</td><td></td><td style="text-align:right;color:var(--green);">${fmt(totalQ2cw)}</td><td></td></tr>`;
+  }
+
+  // ── Deal Source Q2 ──
+  const srcTbl = document.getElementById('q2r-src-tbl');
+  srcTbl.innerHTML = '';
+  const src2Data = [{s:'Marketing',n:7,bg:'#dbeafe',col:'#1e40af'},{s:'Sales',n:6,bg:'#fce7f3',col:'#9d174d'},{s:'Sales Development',n:3,bg:'#ede9fe',col:'#5b21b6'},{s:'Internal Referral',n:1,bg:'#d1fae5',col:'#065f46'}];
+  src2Data.forEach(d=>{
+    const pct=Math.round(d.n/17*100);
+    srcTbl.innerHTML+=`<tr><td><span style="background:${d.bg};color:${d.col};padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;">${d.s}</span></td>
+      <td style="text-align:right;font-weight:700;">${d.n}</td>
+      <td style="text-align:right;">
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;">
+          <div style="width:60px;height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;"><div style="width:${pct}%;height:6px;background:${d.col};border-radius:3px;"></div></div>
+          <span style="font-size:11px;color:var(--text3);">${pct}%</span>
+        </div>
+      </td></tr>`;
+  });
+  srcTbl.innerHTML+=`<tr class="tot"><td>Total</td><td style="text-align:right;">17</td><td style="text-align:right;">100%</td></tr>`;
+
+  // ── Comparativo Q1 vs Q2 ──
+  const compTbl = document.getElementById('q2r-comp-tbl');
+  compTbl.innerHTML = '';
+  const compData = [
+    {m:'CW cerrado',q1:'$1.08M',q2:fmt(totalQ2cw),up:false,note:'Q2 en curso'},
+    {m:'SQOs generados',q1:'148',q2:'17',up:false,note:'Q2 parcial'},
+    {m:'ARR SQOs',q1:'$16.2M',q2:fmt(tArrQ2),up:false,note:'Q2 parcial'},
+    {m:'Ticket prom. SQO',q1:'$110K',q2:fmt(tkQ2),up:false,note:''},
+    {m:'Forecast (V+S)',q1:'—',q2:fmt(tFcQ2),up:true,note:''},
+    {m:'Pipeline coverage',q1:'—',q2:'12.9x',up:true,note:'vs meta Q2'},
+  ];
+  compData.forEach(d=>{
+    compTbl.innerHTML+=`<tr><td style="font-weight:600;">${d.m}</td>
+      <td style="text-align:right;color:var(--text3);">${d.q1}</td>
+      <td style="text-align:right;color:var(--blue);font-weight:600;">${d.q2}</td>
+      <td style="text-align:right;font-size:11px;color:var(--text3);">${d.note}</td>
+    </tr>`;
+  });
+}
+
 </script>
 </body>
 </html>
