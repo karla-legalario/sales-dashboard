@@ -105,9 +105,9 @@
       <div style="width:1px;height:20px;background:rgba(255,255,255,.2);"></div>
       <span style="font-size:11px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;">Sales Dashboard</span>
     </div>
-    <span class="live-badge"><span class="live-dot"></span>Datos al 04 May 2026</span>
+    <span class="live-badge"><span class="live-dot"></span>Datos al 19 May 2026</span>
   </div>
-  <span class="date-badge">04 May 2026</span>
+  <span class="date-badge">19 May 2026</span>
 </div>
 
 <div class="main">
@@ -315,8 +315,8 @@
     <div class="metrics" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:1.25rem;">
       <div class="mc" style="border-color:var(--blue);">
         <div class="mc-lbl">SQOs Q2 <span style="font-size:9px;background:var(--blue-bg);color:var(--blue);padding:1px 6px;border-radius:8px;">EN CURSO</span></div>
-        <div class="mc-val" style="color:var(--blue);">20</div>
-        <div class="mc-sub">Ernesto 8 · Karla 3 · Rossana 9 · abr–may 2026</div>
+        <div class="mc-val" style="color:var(--blue);">25</div>
+        <div class="mc-sub">Ernesto 10 · Karla 5 · Rossana 10 · Q2 2026</div>
       </div>
       <div class="mc" style="border-color:var(--blue);">
         <div class="mc-lbl">ARR SQOs Q2</div>
@@ -754,7 +754,7 @@
     <!-- HEADER BADGE -->
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;">
       <span style="background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;">▶ Q2 EN CURSO · Abr–Jun 2026</span>
-      <span style="font-size:11px;color:var(--text3);">Actualizado al 04 May 2026 · se actualiza conforme avanza el trimestre</span>
+      <span style="font-size:11px;color:var(--text3);">Actualizado al 19 May 2026 · se actualiza conforme avanza el trimestre</span>
     </div>
 
     <!-- MÉTRICAS TOP -->
@@ -875,7 +875,7 @@
 
   </div>
 
-  <p class="upd-note">Datos extraídos de HubSpot · 04 May 2026 · Para actualizar, contacta a Karla</p>
+  <p class="upd-note">Datos extraídos de HubSpot · 19 May 2026 · Para actualizar, contacta a Karla</p>
 </div>
 
 <script>
@@ -895,41 +895,37 @@ const META_EQ1=3000000,META_EA=12000000;
 
 const DATA={
   cw_q1:  {Ernesto:278000,  Karla:490000,   Rossana:239800, Diego:71000, Ilse:0},
-  cw_q2:  {Ernesto:0,       Karla:2462600,  Rossana:200800, Diego:0,     Ilse:72900},
-  cw:     {Ernesto:278000,  Karla:2952600,  Rossana:440600, Diego:71000, Ilse:72900},
+  cw_q2:  {Ernesto:123000,  Karla:2462600,  Rossana:673300, Diego:0,     Ilse:72900},
+  cw:     {Ernesto:401000,  Karla:2952600,  Rossana:913100, Diego:71000, Ilse:72900},
   sqo:    {Ernesto:3680000, Karla:8281000,  Rossana:1040000,Diego:250000,Ilse:0},
   sqo_count: {Ernesto:8,  Karla:15, Rossana:9,  Diego:1, Ilse:0},
   neg_count: {Ernesto:20, Karla:8,  Rossana:20, Diego:1, Ilse:0},
   demo_count:{Ernesto:10, Karla:8,  Rossana:4,  Diego:0, Ilse:0},
-  verb_count:{Ernesto:6,  Karla:2,  Rossana:2,  Diego:0, Ilse:0},
-  sign_count:{Ernesto:4,  Karla:1,  Rossana:2,  Diego:0, Ilse:0},
-  cw_count:  {Ernesto:5,  Karla:9,  Rossana:5,  Diego:1, Ilse:3},
+  verb_count:{Ernesto:3,  Karla:2,  Rossana:2,  Diego:0, Ilse:0},
+  sign_count:{Ernesto:4,  Karla:1,  Rossana:1,  Diego:0, Ilse:0},
+  cw_count:  {Ernesto:8,  Karla:9,  Rossana:9,  Diego:1, Ilse:3},
   neg:    {Ernesto:4240400, Karla:1828000,  Rossana:2708745,Diego:960000,Ilse:0},
   demo:   {Ernesto:1317400, Karla:4350000,  Rossana:256000, Diego:0,     Ilse:0},
-  verbal: {Ernesto:4985100, Karla:294000,   Rossana:93500,  Diego:0,     Ilse:0},
-  sign:   {Ernesto:200000,  Karla:2500000,  Rossana:140000, Diego:0,     Ilse:0},
+  verbal: {Ernesto:1932600, Karla:294000,   Rossana:101000, Diego:0,     Ilse:0},
+  sign:   {Ernesto:2693000, Karla:2500000,  Rossana:40000,  Diego:0,     Ilse:0},
   sqoQ1_count:{Ernesto:47,Karla:27,Rossana:48,Diego:0,Ilse:26},
   sqoQ1_arr:  {Ernesto:7355300,Karla:5436500,Rossana:3216545,Diego:0,Ilse:198400},
   fi:         {Ernesto:2083700, Karla:10902700,Rossana:652696, Diego:0,     Ilse:0},
   fi_count:   {Ernesto:18,      Karla:42,       Rossana:11,     Diego:0,     Ilse:0},
   forecastDeals:[
     {d:'DiDi Global',             a:2500000,ae:'Karla',   stage:'sign'},
-    {d:'El Aguila Cía. Seguros',  a:2139000,ae:'Ernesto', stage:'verbal'},
-    {d:'Estafeta Mexicana',       a:1369500,ae:'Ernesto', stage:'verbal'},
-    {d:'Credifiel',               a:440000, ae:'Ernesto', stage:'verbal'},
+    {d:'El Aguila Cía. Seguros',  a:2139000,ae:'Ernesto', stage:'sign'},
+    {d:'Credifiel',               a:440000, ae:'Ernesto', stage:'sign'},
     {d:'Pase',                    a:957600, ae:'Ernesto', stage:'verbal'},
-    {d:'ProxCredit',              a:43000,  ae:'Ernesto', stage:'verbal'},
+    {d:'Estafeta Mexicana',       a:890000, ae:'Ernesto', stage:'verbal'},
     {d:'Santander SAM',           a:160000, ae:'Karla',   stage:'verbal'},
     {d:'Inverlar.cloudpos',       a:134000, ae:'Karla',   stage:'verbal'},
-    {d:'HEMO-IONICS',             a:45000,  ae:'Rossana', stage:'sign'},
-    {d:'Pulppo',                  a:95000,  ae:'Rossana', stage:'sign'},
-    {d:'Puerto Aventuras',        a:54500,  ae:'Rossana', stage:'verbal'},
-    {d:'Carrocerías Hernández',   a:39000,  ae:'Rossana', stage:'verbal'},
-    {d:'Fintoc',                  a:56000,  ae:'Ernesto', stage:'sign'},
+    {d:'Morada Uno Integración',  a:85000,  ae:'Ernesto', stage:'verbal'},
     {d:'COMECA',                  a:58000,  ae:'Ernesto', stage:'sign'},
-    {d:'Mayoristas Vinos y Lic.', a:50000,  ae:'Ernesto', stage:'sign'},
-    {d:'Universidad Unila',       a:36000,  ae:'Ernesto', stage:'sign'},
-    {d:'Seramaq',                 a:44000,  ae:'Ernesto', stage:'sign'},
+    {d:'CMX 360',                 a:56000,  ae:'Rossana', stage:'verbal'},
+    {d:'Fintoc',                  a:56000,  ae:'Ernesto', stage:'sign'},
+    {d:'HEMO-IONICS',             a:45000,  ae:'Rossana', stage:'verbal'},
+    {d:'Smart Payment Services',  a:40000,  ae:'Rossana', stage:'sign'},
   ],
 };
 
@@ -1137,9 +1133,9 @@ if(oq2){
     </tr>`;
   });
   oq2.innerHTML+=`<tr class="tot"><td>Total Q2</td>
-    <td style="text-align:right;color:var(--blue);">20</td>
-    <td style="text-align:right;color:var(--blue);">${fmt(1505000)}</td>
-    <td style="text-align:right;">${fmt(75250)}</td>
+    <td style="text-align:right;color:var(--blue);">25</td>
+    <td style="text-align:right;color:var(--blue);">${fmt(1896500)}</td>
+    <td style="text-align:right;">${fmt(75860)}</td>
     <td style="text-align:center;"><span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:20px;font-size:11px;">7&nbsp;<span style="opacity:.65;">41%</span></span></td>
     <td style="text-align:center;"><span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:20px;font-size:11px;">6&nbsp;<span style="opacity:.65;">35%</span></span></td>
     <td style="text-align:center;"><span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:20px;font-size:11px;">3&nbsp;<span style="opacity:.65;">18%</span></span></td>
@@ -1648,9 +1644,15 @@ function resetearForecastQ2() {
 // ── RESULTADOS Q2 ──────────────────────────────────────────
 const CW_Q2_DEALS = [
   {d:'Chubb',                    ae:'Karla',   a:2373600,m:'Abr'},
+  {d:'Operadora FIJI',           ae:'Rossana', a:323000, m:'May'},
   {d:'Lambda Científica',        ae:'Rossana', a:200800, m:'Abr'},
   {d:'Promaizmar',               ae:'Karla',   a:89000,  m:'Abr'},
+  {d:'Pulppo',                   ae:'Rossana', a:95000,  m:'May'},
+  {d:'Puerto Aventuras',         ae:'Rossana', a:54500,  m:'May'},
   {d:'Jorge Luis Valencia F.',   ae:'Ilse',    a:50800,  m:'May'},
+  {d:'El Mayorista en Vinos',    ae:'Ernesto', a:44000,  m:'May'},
+  {d:'ProxCredit',               ae:'Ernesto', a:43000,  m:'May'},
+  {d:'Universidad Unila',        ae:'Ernesto', a:36000,  m:'May'},
   {d:'CW Group Plan Starter',    ae:'Ilse',    a:15400,  m:'Abr'},
   {d:'NEXSYS Plan Essentials',   ae:'Ilse',    a:6700,   m:'Abr'},
 ];
@@ -1661,8 +1663,8 @@ function renderQ2Results() {
   // ── Métricas ──
   const totalQ2cw = CW_Q2_DEALS.reduce((s,d)=>s+d.a,0);
   const pctQ2 = Math.round(totalQ2cw/3000000*100);
-  const tSqosQ2 = 20; // SQOs Q2 al 30 Abr
-  const tArrQ2  = 1505000;
+  const tSqosQ2 = 25; // SQOs Q2 al 19 May
+  const tArrQ2  = 1896500;
   const tkQ2    = Math.round(tArrQ2/tSqosQ2);
   const tFcQ2   = totalVerb+totalSign;
   const cwfQ2   = totalQ2cw+tFcQ2;
@@ -1670,7 +1672,7 @@ function renderQ2Results() {
   document.getElementById('q2r-cw').textContent = fmt(totalQ2cw);
   document.getElementById('q2r-cw-sub').innerHTML = '<span style="color:var(--blue);">'+fmtP(pctQ2)+' de meta $3M · en curso</span>';
   document.getElementById('q2r-sqos').textContent = tSqosQ2;
-  document.getElementById('q2r-sqos-sub').textContent = 'Ernesto 8 · Karla 3 · Rossana 9';
+  document.getElementById('q2r-sqos-sub').textContent = 'Ernesto 10 · Karla 5 · Rossana 10';
   document.getElementById('q2r-arr').textContent = fmt(tArrQ2);
   document.getElementById('q2r-fc').textContent = fmt(tFcQ2);
   document.getElementById('q2r-fc-sub').textContent = 'Verbal '+fmt(totalVerb)+' · Sign '+fmt(totalSign);
