@@ -110,9 +110,9 @@
       <div style="width:1px;height:20px;background:rgba(255,255,255,.2);"></div>
       <span style="font-size:11px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;">Sales Dashboard</span>
     </div>
-    <span class="live-badge"><span class="live-dot"></span>Datos al 02 Jun 2026</span>
+    <span class="live-badge"><span class="live-dot"></span>Datos al 09 Jun 2026</span>
   </div>
-  <span class="date-badge">02 Jun 2026</span>
+  <span class="date-badge">09 Jun 2026</span>
 </div>
 
 <div class="main">
@@ -385,9 +385,9 @@
 
     <div class="metrics">
       <div class="mc"><div class="mc-lbl">Meta anual Plan Web</div><div class="mc-val">$1.00M</div><div class="mc-sub">Canal separado de New Logos</div></div>
-      <div class="mc" style="background:var(--green-bg);border-color:var(--green);"><div class="mc-lbl">Q1 NL+BI <span style="font-size:9px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:8px;">CERRADO</span></div><div class="mc-val" style="color:var(--green);">$243K</div><div class="mc-sub" style="color:var(--green);">✓ 97% meta Q · 17 NL + 16 BI</div></div>
-      <div class="mc" style="border-color:var(--blue);"><div class="mc-lbl">Q2 NL <span style="font-size:9px;background:var(--blue-bg);color:var(--blue);padding:1px 6px;border-radius:8px;">EN CURSO</span></div><div class="mc-val" style="color:var(--blue);">$135.5K</div><div class="mc-sub" style="color:var(--blue);">54% meta Q2 · 13 deals</div></div>
-      <div class="mc"><div class="mc-lbl">Base Instalada Q1</div><div class="mc-val" style="color:var(--purple);">$141.9K</div><div class="mc-sub">16 renovaciones</div></div>
+      <div class="mc" style="background:var(--green-bg);border-color:var(--green);"><div class="mc-lbl">Q1 NL+BI <span style="font-size:9px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:8px;">CERRADO</span></div><div class="mc-val" style="color:var(--green);">$243K</div><div class="mc-sub" style="color:var(--green);">✓ 17 NL $101.5K + 16 BI $141.9K</div></div>
+      <div class="mc" style="border-color:var(--blue);"><div class="mc-lbl">Q2 NL+BI <span style="font-size:9px;background:var(--blue-bg);color:var(--blue);padding:1px 6px;border-radius:8px;">EN CURSO</span></div><div class="mc-val" style="color:var(--blue);">$320K</div><div class="mc-sub" style="color:var(--blue);">NL $240.7K + BI $79.3K · 26 deals</div></div>
+      <div class="mc"><div class="mc-lbl">Base Instalada Q1</div><div class="mc-val" style="color:var(--purple);">$141.9K</div><div class="mc-sub">16 renovaciones Q1</div></div>
     </div>
 
     <!-- Barra anual -->
@@ -402,9 +402,9 @@
         </div>
         <div class="q-card" style="border:1px solid var(--blue);background:var(--bg2);">
           <div class="q-lbl">Q2 · Abr–Jun <span style="font-size:9px;background:var(--blue-bg);color:var(--blue);padding:1px 6px;border-radius:8px;">EN CURSO</span></div>
-          <div class="q-val" style="color:var(--blue);">$135.5K</div>
-          <div class="q-sub" style="color:var(--blue);">54% de meta $250K</div>
-          <div class="q-bar-bg"><div class="q-bar-fill" style="width:54%;background:var(--blue);"></div></div>
+          <div class="q-val" style="color:var(--blue);">$320K</div>
+          <div class="q-sub" style="color:var(--blue);">NL $240.7K · BI $79.3K</div>
+          <div class="q-bar-bg"><div class="q-bar-fill" style="width:96%;background:var(--blue);"></div></div>
         </div>
         <div class="q-card" style="opacity:.45;">
           <div class="q-lbl">Q3 · Jul–Sep</div>
@@ -420,9 +420,9 @@
         </div>
       </div>
       <div class="ab-wrap">
-        <div class="ab-top"><span>Acumulado NL: $237K (Q1 $101.5K + Q2 $135.5K)</span><span style="color:var(--blue);">16.9% de $1M</span></div>
+        <div class="ab-top"><span>Acumulado NL: $342K (Q1 $101.5K + Q2 $240.7K)</span><span style="color:var(--blue);">34.2% de $1M</span></div>
         <div class="ab-bg">
-          <div class="ab-fill" style="width:23.70%;background:var(--blue);"></div>
+          <div class="ab-fill" style="width:34.2%;background:var(--blue);"></div>
           <div class="ab-m" style="left:25%;"></div>
           <div class="ab-m" style="left:50%;"></div>
           <div class="ab-m" style="left:75%;"></div>
@@ -445,15 +445,17 @@
         <p class="sec-title">Distribución Q1</p>
         <div style="position:relative;height:190px;"><canvas id="pwDonut"></canvas></div>
         <div class="leg">
-          <span class="leg-i"><span class="leg-d" style="background:var(--blue);"></span>New Logo $110K (44%)</span>
-          <span class="leg-i"><span class="leg-d" style="background:var(--purple);"></span>Base Instalada $142K (56%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:var(--blue);"></span>New Logo Q1 $101.5K</span>
+          <span class="leg-i"><span class="leg-d" style="background:#3a8fe8;"></span>New Logo Q2 $240.7K</span>
+          <span class="leg-i"><span class="leg-d" style="background:var(--purple);"></span>Base Instalada Q1 $141.9K</span>
+          <span class="leg-i"><span class="leg-d" style="background:#8b6fc4;"></span>Base Instalada Q2 $79.3K</span>
         </div>
       </div>
     </div>
 
     <!-- Tabla New Logo -->
     <div class="section">
-      <p class="sec-title">CW New Logo — acumulado 2026 <span style="font-size:11px;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:8px;margin-left:6px;">Q1 $101.5K + Q2 $67.8K = $169.3K</span></p>
+      <p class="sec-title">CW New Logo — acumulado 2026 <span style="font-size:11px;background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:8px;margin-left:6px;">Q1 $101.5K + Q2 $240.7K = $342.2K</span></p>
       <table class="rtbl">
         <thead><tr>
           <th style="text-align:left;">Deal</th>
@@ -465,7 +467,7 @@
 
     <!-- Tabla Base Instalada -->
     <div class="section">
-      <p class="sec-title">CW Base Instalada — acumulado 2026 <span style="font-size:11px;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:8px;margin-left:6px;">Q1 · $141.9K</span></p>
+      <p class="sec-title">CW Base Instalada — acumulado 2026 <span style="font-size:11px;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:8px;margin-left:6px;">Q1 $141.9K + Q2 $79.3K = $221.2K</span></p>
       <table class="rtbl">
         <thead><tr>
           <th style="text-align:left;">Deal</th>
@@ -759,7 +761,7 @@
     <!-- HEADER BADGE -->
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;">
       <span style="background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;">▶ Q2 EN CURSO · Abr–Jun 2026</span>
-      <span style="font-size:11px;color:var(--text3);">Actualizado al 25 May 2026 · se actualiza conforme avanza el trimestre</span>
+      <span style="font-size:11px;color:var(--text3);">Actualizado al 09 Jun 2026 · se actualiza conforme avanza el trimestre</span>
     </div>
 
     <!-- MÉTRICAS TOP -->
@@ -880,7 +882,7 @@
 
   </div>
 
-  <p class="upd-note">Datos extraídos de HubSpot · 02 Jun 2026 · Para actualizar, contacta a Karla</p>
+  <p class="upd-note">Datos extraídos de HubSpot · 09 Jun 2026 · Para actualizar, contacta a Karla</p>
 </div>
 
 <script>
@@ -894,52 +896,50 @@ const ac=p=>p>=70?'var(--green)':p>=30?'var(--amber)':'var(--red)';
 const acBg=p=>p>=70?'var(--green-bg)':p>=30?'var(--amber-bg)':'var(--red-bg)';
 const attPill=(p,l)=>`<span class="att-pill" style="background:${acBg(p)};color:${ac(p)};">${l}</span>`;
 
-const METAS_ANUAL={Ernesto:5200000,Karla:4400000,Rossana:3000000,Diego:0,Ilse:1280000};
+const METAS_ANUAL={Ernesto:5200000,Karla:4400000,Rossana:3000000,Diego:0,Ilse:1620000};
 const METAS_Q1={Ernesto:1300000,Karla:1100000,Rossana:750000,Diego:0,Ilse:320000};
 const META_EQ1=3000000,META_EA=12000000;
 
 const DATA={
+  // Solo New Logo para los 4 AEs. Ilse sin Q1 (fue rampa sin cierres).
   cw_q1:  {Ernesto:278000,  Karla:490000,   Rossana:239800, Diego:71000, Ilse:0},
-  cw_q2:  {Ernesto:123000,  Karla:2508600,  Rossana:771300, Diego:0,     Ilse:57500},
-  cw:     {Ernesto:401000,  Karla:2998600,  Rossana:1011100,Diego:71000, Ilse:57500},
+  cw_q2:  {Ernesto:2262000, Karla:2642600,  Rossana:771300, Diego:0,     Ilse:50800},
+  cw:     {Ernesto:2540000, Karla:3132600,  Rossana:1011100,Diego:71000, Ilse:50800},
   sqo:    {Ernesto:3680000, Karla:8281000,  Rossana:1040000,Diego:250000,Ilse:0},
   sqo_count: {Ernesto:8,  Karla:15, Rossana:9,  Diego:1, Ilse:0},
   neg_count: {Ernesto:20, Karla:8,  Rossana:20, Diego:1, Ilse:0},
   demo_count:{Ernesto:10, Karla:8,  Rossana:4,  Diego:0, Ilse:0},
-  verb_count:{Ernesto:3,  Karla:2,  Rossana:2,  Diego:0, Ilse:0},
-  sign_count:{Ernesto:4,  Karla:1,  Rossana:0,  Diego:0, Ilse:0},
-  cw_count:  {Ernesto:8,  Karla:9,  Rossana:10, Diego:1, Ilse:3},
+  verb_count:{Ernesto:2,  Karla:2,  Rossana:2,  Diego:0, Ilse:2},
+  sign_count:{Ernesto:1,  Karla:1,  Rossana:0,  Diego:0, Ilse:0},
+  cw_count:  {Ernesto:9,  Karla:10, Rossana:10, Diego:1, Ilse:1},
   neg:    {Ernesto:4240400, Karla:1828000,  Rossana:2708745,Diego:960000,Ilse:0},
   demo:   {Ernesto:1317400, Karla:4350000,  Rossana:256000, Diego:0,     Ilse:0},
-  verbal: {Ernesto:1932600, Karla:1519000,   Rossana:101000, Diego:0,     Ilse:0},
-  sign:   {Ernesto:2733000, Karla:3372150,  Rossana:0,      Diego:0,     Ilse:0},
-  sqoQ1_count:{Ernesto:47,Karla:27,Rossana:48,Diego:0,Ilse:26},
+  // Verbal New Logo: Ernesto=Estafeta $670K+Morada Uno $85K | Karla=Santander $160K+Colectivo Moda excluido(BI) | Rossana=CMX360 $56K+HEMO-IONICS $45K | Ilse=IAL $36.4K+Tokali $35K
+  verbal: {Ernesto:755000,  Karla:160000,   Rossana:101000, Diego:0,     Ilse:71400},
+  // Sign New Logo: Ernesto=Credifiel $440K | Karla=DiDi $2.5M (CSN/IMP/CSN-RFP son BI, no cuentan)
+  sign:   {Ernesto:440000,  Karla:2500000,  Rossana:0,      Diego:0,     Ilse:0},
+  sqoQ1_count:{Ernesto:47,Karla:27,Rossana:48,Diego:0,Ilse:0},
   sqoQ1_deals:{
-    Ernesto:["Vexi $3.1M","CIMA Shipping $450K","Grupo Cinemex $310K","Sistema de Poder $244K","Payclip $169K","Grupo CIE $156K","Smart Fit $210K","Credifiel $440K","El Aguila $2.1M","Pase $957K","Estafeta $890K","Firmante $200K","Centro Veterinario $240K","LOréal $200K","La Comer $250K","Morada Uno $85K","ProxCredit $43K","Kohesion $60K","Grupo Aryba $91K","SAFE $300K","SiCar $59K","Quarry $49K","COMECA $58K","Fintoc $56K","Mayoristas $44K","Unila $36K","El Mayorista $44K","ABCSC $50K","SoporteParaTI $100K","Riviera $44K","Bitso $50K","Grupo Truper $80K","Pase-CLM $190K","AMPI Cancún","Club IA Legal","ASOFOM","Reli","De Blanco $40K","Felovi $80K","AGROMICH $39K","Abastecedora $60K","Combustibles $44K","Asesores Div $53K","Seramaq $44K","Pólizas Jur $53K","Grupo Guiar $120K","J Garcia Lopez $100K"],
-    Karla:["DiDi Global $2.5M","Emi Labs $1.1M","Chubb $2.37M","Promaizmar $89K","Brand Factory $250K","Grupo Papelera $229K","Chubb RH $100K","Constructora Arcos $120K","Grupo Vanguardia $100K","I-Open $200K","KPX $200K","SUAUTO $179K","BODESA $125K","INTER 492 $300K","CleanCheck $200K","Faw Capital $500K","Municipio S.Pedro $290K","BanBajío $87K","Dportenis $128K","Banco Forjadores $240K","HayCash! $285K","Master TI $121K","Inverlar $134K","Santander $160K","Maosa $400K","Grupo Duna $45K","GlobalSoft $274K"],
+    Ernesto:["Vexi $3.1M","CIMA Shipping $450K","Grupo Cinemex $310K","Sistema de Poder $244K","Payclip $169K","Grupo CIE $156K","Smart Fit $210K","Credifiel $440K","El Aguila $2.1M","Estafeta $670K","Firmante $200K","Centro Veterinario $240K","LOréal $200K","La Comer $250K","Morada Uno $85K","ProxCredit $43K","Kohesion $60K","Grupo Aryba $91K","SAFE $300K","SiCar $59K","Quarry $49K","COMECA $58K","Fintoc $56K","Mayoristas $44K","Unila $36K","El Mayorista $44K","ABCSC $50K","SoporteParaTI $100K","Riviera $44K","Bitso $50K","Grupo Truper $80K","AMPI Cancún","Club IA Legal","ASOFOM","Reli","De Blanco $40K","Felovi $80K","AGROMICH $39K","Abastecedora $60K","Combustibles $44K","Asesores Div $53K","Seramaq $44K","Pólizas Jur $53K","Grupo Guiar $120K","J Garcia Lopez $100K","El Aguila $2.139M"],
+    Karla:["DiDi Global $2.5M","Emi Labs $1.1M","Chubb $2.37M","Promaizmar $89K","Brand Factory $250K","Grupo Papelera $229K","Chubb RH $100K","Constructora Arcos $130K","Grupo Vanguardia $100K","I-Open $200K","KPX $200K","SUAUTO $179K","INTER 492 $300K","Faw Capital $500K","Municipio S.Pedro $290K","BanBajío $87K","Dportenis $128K","Banco Forjadores $240K","HayCash! $285K","Master TI $121K","Inverlar $134K","Santander $160K","Maosa $400K","Grupo Duna $45K","GlobalSoft $274K","Nissan $200K","Bepensa $200K"],
     Rossana:["Pulppo $95K","Puerto Aventuras $54K","Lambda $200K","Operadora FIJI $323K","Smart Payment $40K","LABORATORIO PIC $290K","U.Humanitas $260K","GlobalSoft $274K","Merkabastos $157K","Tartamiel $190K","Ancila Tours $168K","HEMO-IONICS $45K","XALDIGITAL $52K","QUOM $99K","Verifarma $50K","Minera Platte $45K","Quiero Lana $45K","Toolboy $60K","CMX360 $56K","Desiteg $77K","Adbansys $74K","Certeza Inmob $39K","ProASSPA $40K","HECA $41K","Amsper $45K","bSide $41K","Redtae $50K","Smart Work $52K","Smithers $41K","Portos $69K","U.Celaya $69K","ASP $90K","NOMbook $39K","Enkontrol $63K","WORTEV $112K","Farefo $88K","VAKEVA $45K","ITECOC $90K","Tu Renta $108K","U.Tecmilenio $60K","4S RE $54K","IPTE $59K","Pesos Inm $135K","SIGA $90K","FINORE $40K","Ahorra Seguros $140K","Pihcsa $39K"],
-    Ilse:["Grupo Adet $6.7K","Fab Soluciones $6.7K","Corp Milenium $6.7K","Diclean $6.7K","Chase Dream $5K","Frara $6.7K","Stassc $2K","Grupo Ticamex $6.7K","Business Growth $6.7K","Thanks Agency $6.9K","EECA $6.7K","Jen Car $6.7K","Grupo Carvel $6.7K","JSG Regiomontana $6.7K","Secnesys $6.7K","Tlatempa $6.7K","Medicojurista $500","CW Group $15.4K","NEXSYS $6.7K","Jorge Luis $50.8K","Inter Americana $29K","Z Motors $15.4K","Loger $15.4K","El Yucateco $15.4K","C Trendy $15.4K"],
+    Ilse:[],
     Diego:[],
-  },  sqoQ1_arr:  {Ernesto:7355300,Karla:5436500,Rossana:3216545,Diego:0,Ilse:198400},
+  },
+  sqoQ1_arr:  {Ernesto:7355300,Karla:5436500,Rossana:3216545,Diego:0,Ilse:0},
   fi:         {Ernesto:2083700, Karla:10902700,Rossana:652696, Diego:0,     Ilse:0},
   fi_count:   {Ernesto:18,      Karla:42,       Rossana:11,     Diego:0,     Ilse:0},
+  // Forecast = solo New Logo en Verbal o Sign. BI se muestra en pestaña AE pero NO aquí.
   forecastDeals:[
-    {d:'DiDi Global',             a:2500000,ae:'Karla',   stage:'sign'},
-    {d:'Colectivo Moda Onboarding',a:1225000,ae:'Karla',  stage:'verbal'},
-    {d:'El Aguila Cía. Seguros',  a:2179000,ae:'Ernesto', stage:'sign'},
-    {d:'Credifiel',               a:440000, ae:'Ernesto', stage:'sign'},
-    {d:'Pase',                    a:957600, ae:'Ernesto', stage:'verbal'},
-    {d:'Estafeta Mexicana',       a:890000, ae:'Ernesto', stage:'verbal'},
-    {d:'CSN nuevo onboarding',    a:507150, ae:'Karla',   stage:'sign'},
-    {d:'Renovacion IMP 2026',     a:200000, ae:'Karla',   stage:'sign'},
-    {d:'Santander SAM',           a:160000, ae:'Karla',   stage:'verbal'},
-    {d:'CSN RFP visita ocular',   a:165000, ae:'Karla',   stage:'sign'},
-    {d:'Inverlar.cloudpos',       a:134000, ae:'Karla',   stage:'verbal'},
-    {d:'Morada Uno Integración',  a:85000,  ae:'Ernesto', stage:'verbal'},
-    {d:'COMECA',                  a:58000,  ae:'Ernesto', stage:'sign'},
-    {d:'CMX 360',                 a:56000,  ae:'Rossana', stage:'verbal'},
-    {d:'Fintoc',                  a:56000,  ae:'Ernesto', stage:'sign'},
-    {d:'HEMO-IONICS',             a:45000,  ae:'Rossana', stage:'verbal'},
+    {d:'DiDi Global',            a:2500000, ae:'Karla',   stage:'sign',  tipo:'New Logo'},
+    {d:'Estafeta Mexicana',      a:670000,  ae:'Ernesto', stage:'verbal', tipo:'New Logo'},
+    {d:'Credifiel',              a:440000,  ae:'Ernesto', stage:'sign',  tipo:'New Logo'},
+    {d:'Santander SAM',          a:160000,  ae:'Karla',   stage:'verbal', tipo:'New Logo'},
+    {d:'Morada Uno Integración', a:85000,   ae:'Ernesto', stage:'verbal', tipo:'New Logo'},
+    {d:'CMX 360',                a:56000,   ae:'Rossana', stage:'verbal', tipo:'New Logo'},
+    {d:'HEMO-IONICS',            a:45000,   ae:'Rossana', stage:'verbal', tipo:'New Logo'},
+    {d:'IAL Prestamás Nómina',   a:36400,   ae:'Ilse',    stage:'verbal', tipo:'New Logo'},
+    {d:'Tokali S.A. de C.V.',    a:35000,   ae:'Ilse',    stage:'verbal', tipo:'New Logo'},
   ],
 };
 
@@ -1279,29 +1279,39 @@ const PW_NL_Q1 = [
   {d:'Medicojurista Mensual',a:500,m:'Mar'},
 ];
 const PW_NL_Q2 = [
-  {d:'MH Soluciones Plan Starter',a:15400,m:'Abr'},
+  {d:'MH Soluciones Plan Starter (Ren. Anticipada)',a:15400,m:'Abr'},
   {d:'Z Motors Plan Starter',a:15400,m:'Abr'},
   {d:'Loger Plan Starter',a:15400,m:'Abr'},
+  {d:'El Yucateco Plan Starter',a:15400,m:'Abr'},
+  {d:'C Trendy México Plan Starter',a:15400,m:'Abr'},
+  {d:'Inter Americana (Asoc.) Plan Premium',a:29000,m:'Abr'},
   {d:'Proyectos y Const. Virgo',a:7500,m:'Abr'},
   {d:'Confidelis',a:6700,m:'Abr'},
-  {d:'Renovación Grulla MKT',a:6900,m:'Abr'},
-  {d:'Corp. Empresarial Fiscal (mensual)',a:500,m:'Abr'},
+  {d:'Grulla MKT (Ren. Anticipada)',a:6900,m:'Abr'},
   {d:'NEXSYS Plan Essentials',a:6700,m:'Abr'},
-  {d:'Inter Americana (Asoc.)',a:29000,m:'Abr'},
-  {d:'El Yucateco',a:15400,m:'Abr'},
-  {d:'C Trendy México',a:15400,m:'Abr'},
   {d:'IA Factory (mensual)',a:700,m:'Abr'},
-  {d:'Torre Legal (mensual)',a:500,m:'Abr'},
+  {d:'HONGQI México (mensual)',a:700,m:'May'},
+  {d:'AIMMGM Plan Web Starter',a:15400,m:'May'},
+  {d:'Jetel Plan Web Essentials',a:6700,m:'May'},
+  {d:'Grupo Cuma Plan Essentials',a:6700,m:'May'},
+  {d:'Rusconi & Sauza Abogados',a:6700,m:'May'},
+  {d:'Andiani Travel Group',a:6700,m:'May'},
+  {d:'Asesoría Inmobiliaria Integral (mensual)',a:700,m:'May'},
+  {d:'Credere Plan Starter',a:17400,m:'Jun'},
+  {d:'Andamios CMG Plan Essentials',a:6700,m:'Jun'},
+  {d:'BZPay Plan Essentials',a:6700,m:'Jun'},
+  {d:'Cura México Plan Starter',a:15400,m:'Jun'},
 ];
 const PW_NL = [...PW_NL_Q1, ...PW_NL_Q2];
 const PW_BI = [
+  // Q1
   {d:'Renovación Grupo Coel',a:15400,m:'Ene'},
   {d:'Renovación Crediko',a:6900,m:'Ene'},
   {d:'Renovación Grulla MKT',a:6900,m:'Ene'},
   {d:'Renovación Green Desarrollos',a:5000,m:'Ene'},
   {d:'Renovación Bita Home',a:6700,m:'Feb'},
   {d:'Renovación Vicam',a:6700,m:'Feb'},
-  {d:'Renovación Operfit',a:5000,m:'Feb'},
+  {d:'Renovación Operfit GO! Fitness',a:5000,m:'Feb'},
   {d:'Renovación Omni Printer',a:20000,m:'Mar'},
   {d:'Renovación Rakennus (Tru & Co)',a:15400,m:'Mar'},
   {d:'Renovación Mo Asesoría',a:15400,m:'Mar'},
@@ -1311,6 +1321,16 @@ const PW_BI = [
   {d:'Renovación CISEF',a:6700,m:'Mar'},
   {d:'Renovación Cielo Abierto',a:6700,m:'Mar'},
   {d:'Renovación Best Audio',a:5000,m:'Mar'},
+  // Q2
+  {d:'Renovación IAL Plan Starter',a:15400,m:'Abr'},
+  {d:'Renovación Escontza Kapital',a:7100,m:'Abr'},
+  {d:'Renovación Grupo Pacífico BYR',a:6700,m:'Abr'},
+  {d:'Renovación IMSS Plan Essentials',a:6700,m:'Abr'},
+  {d:'Renovación Anticipada Getic Plan Starter',a:15400,m:'May'},
+  {d:'Renovación Fidelidad SUMA (Grupo ECO)',a:6700,m:'May'},
+  {d:'Renovación Unzueta & Asociados',a:7100,m:'May'},
+  {d:'Renovación Allegro Response',a:6700,m:'Jun'},
+  {d:'Renovación Anticipada Bita Home',a:6700,m:'Jun'},
 ];
 
 // Fill tables
@@ -1319,7 +1339,7 @@ const pwNlTbl = document.getElementById('pw-nl-tbl');
 [...PW_NL_Q1].sort((a,b)=>b.a-a.a).forEach(d=>{
   pwNlTbl.innerHTML += `<tr><td>${d.d}</td><td style="text-align:right;color:var(--text3);">${d.m}</td><td style="text-align:right;color:var(--blue);font-weight:600;">${fmt(d.a)}</td></tr>`;
 });
-pwNlTbl.innerHTML += `<tr style="background:var(--blue-bg);"><td colspan="2" style="padding:6px 12px;font-size:11px;color:var(--blue);font-weight:700;">▶ Q2 — en curso</td><td style="text-align:right;color:var(--blue);font-size:11px;padding:6px 12px;">$67.8K</td></tr>`;
+pwNlTbl.innerHTML += `<tr style="background:var(--blue-bg);"><td colspan="2" style="padding:6px 12px;font-size:11px;color:var(--blue);font-weight:700;">▶ Q2 — en curso (Abr–Jun)</td><td style="text-align:right;color:var(--blue);font-size:11px;padding:6px 12px;">$240.7K</td></tr>`;
 [...PW_NL_Q2].sort((a,b)=>b.a-a.a).forEach(d=>{
   pwNlTbl.innerHTML += `<tr><td>${d.d}</td><td style="text-align:right;color:var(--blue);">${d.m}</td><td style="text-align:right;color:var(--blue);font-weight:600;">${fmt(d.a)}</td></tr>`;
 });
@@ -1337,7 +1357,7 @@ const biTot = PW_BI.reduce((s,d)=>s+d.a,0);
 pwBiTbl.innerHTML += `<tr class="tot"><td>Total Base Instalada</td><td></td><td style="text-align:right;color:var(--purple);">${fmt(biTot)}</td></tr>`;
 
 // Charts
-const meses = ['Ene','Feb','Mar','Abr'];
+const meses = ['Ene','Feb','Mar','Abr','May','Jun'];
 const nlMes = meses.map(m=>PW_NL.filter(d=>d.m===m).reduce((s,d)=>s+d.a,0));
 const biMes = meses.map(m=>PW_BI.filter(d=>d.m===m).reduce((s,d)=>s+d.a,0));
 
@@ -1350,8 +1370,8 @@ new Chart(document.getElementById('pwMonthChart'),{type:'bar',
 });
 
 new Chart(document.getElementById('pwDonut'),{type:'doughnut',
-  data:{labels:['New Logo Q1','New Logo Q2','Base Instalada'],
-    datasets:[{data:[101500,67800,biTot],backgroundColor:['#1a56c4','#3a8fe8','#5b3fb5'],borderWidth:0,hoverOffset:4}]},
+  data:{labels:['New Logo Q1','New Logo Q2','Base Instalada Q1','Base Instalada Q2'],
+    datasets:[{data:[101500,240700,141900,79300],backgroundColor:['#1a56c4','#3a8fe8','#5b3fb5','#8b6fc4'],borderWidth:0,hoverOffset:4}]},
   options:{...cd,cutout:'64%'}
 });
 
@@ -1673,21 +1693,23 @@ function resetearForecastQ2() {
 // ── RESULTADOS Q2 ──────────────────────────────────────────
 const CW_Q2_DEALS = [
   // Abril — New Logo
-  {d:'Chubb',                ae:'Karla',   a:2373600, m:'Abr'},
-  {d:'Lambda Científica',    ae:'Rossana', a:200800,  m:'Abr'},
-  {d:'Promaizmar',           ae:'Karla',   a:89000,   m:'Abr'},
-  {d:'NEXSYS',               ae:'Ilse',    a:6700,    m:'Abr'},
+  {d:'Chubb',                    ae:'Karla',   a:2373600, m:'Abr'},
+  {d:'Lambda Científica',        ae:'Rossana', a:200800,  m:'Abr'},
+  {d:'Promaizmar',               ae:'Karla',   a:89000,   m:'Abr'},
   // Mayo — New Logo
-  {d:'Operadora FIJI',       ae:'Rossana', a:323000,  m:'May'},
-  {d:'Pulppo',               ae:'Rossana', a:95000,   m:'May'},
-  {d:'Puerto Aventuras',     ae:'Rossana', a:54500,   m:'May'},
-  {d:'mdoscapital',          ae:'Rossana', a:58000,   m:'May'},
-  {d:'Smart Payment Abr',    ae:'Rossana', a:40000,   m:'May'},
-  {d:'El Mayorista en Vinos',ae:'Ernesto', a:44000,   m:'May'},
-  {d:'ProxCredit',           ae:'Ernesto', a:43000,   m:'May'},
-  {d:'Universidad Unila',    ae:'Ernesto', a:36000,   m:'May'},
-  {d:'Jorge Luis Valencia F.',ae:'Ilse',   a:50800,   m:'May'},
-  {d:'PIEK',                 ae:'Karla',   a:46000,   m:'Jun'},
+  {d:'Operadora FIJI',           ae:'Rossana', a:323000,  m:'May'},
+  {d:'Pulppo',                   ae:'Rossana', a:95000,   m:'May'},
+  {d:'Puerto Aventuras',         ae:'Rossana', a:54500,   m:'May'},
+  {d:'mdoscapital',              ae:'Rossana', a:58000,   m:'May'},
+  {d:'Smart Payment Abr',        ae:'Rossana', a:40000,   m:'May'},
+  {d:'El Mayorista en Vinos',    ae:'Ernesto', a:44000,   m:'May'},
+  {d:'ProxCredit',               ae:'Ernesto', a:43000,   m:'May'},
+  {d:'Universidad Unila',        ae:'Ernesto', a:36000,   m:'May'},
+  {d:'Jorge Luis Valencia F.',   ae:'Ilse',    a:50800,   m:'May'},
+  // Junio — New Logo
+  {d:'PIEK',                     ae:'Karla',   a:46000,   m:'Jun'},
+  {d:'El Aguila Cía. Seguros',   ae:'Ernesto', a:2139000, m:'Jun'},
+  {d:'Inverlar.cloudpos',        ae:'Karla',   a:134000,  m:'Jun'},
 ];
 
 function renderQ2Results() {
