@@ -234,7 +234,7 @@
   <!-- POR AE -->
   <div id="view-reps" class="view">
     <div class="section">
-      <p class="sec-title">Resumen por AE — Q2 en curso y anual</p>
+      <p class="sec-title">Resumen por AE — acumulado anual</p>
       <div style="overflow-x:auto;">
         <table class="rtbl">
           <thead><tr>
@@ -1032,9 +1032,9 @@ const META_EQ1=3000000,META_EA=12000000;
 
 const DATA={
   cw_q1:  {Ernesto:278000,  Karla:490000,   Rossana:239800, Ilse:0},
-  cw_q2:  {Ernesto:2262000, Karla:7642600,  Rossana:771000, Ilse:50800},
+  cw_q2:  {Ernesto:2262000, Karla:7608600,  Rossana:698800, Ilse:125400},
   cw_q3:  {Ernesto:153500,  Karla:70000,    Rossana:0,      Ilse:217300},
-  cw:     {Ernesto:2693500, Karla:8202600,  Rossana:1010800,Ilse:268100},
+  cw:     {Ernesto:2693500, Karla:8168600,  Rossana:938600, Ilse:342700},
   sqo:    {Ernesto:3680000, Karla:8281000,  Rossana:1040000,Ilse:0},
   sqo_count: {Ernesto:8,  Karla:15, Rossana:9,  Ilse:0},
   neg_count: {Ernesto:20, Karla:8,  Rossana:20, Ilse:0},
@@ -1091,7 +1091,7 @@ const gp=document.getElementById('g-prog');
 names.forEach(n=>{
   const meta=METAS_ANUAL[n],val=DATA.cw[n];
   const pct=meta?Math.round((val/meta)*100):null;
-  const q1pct=meta&&METAS_Q1[n]?Math.round((METAS_Q1[n]/meta)*100):null;
+  const q1pct=meta?75:null;
   const exited=n==='Diego',ramp=n==='Ilse';
   const badge=exited?'<span style="font-size:10px;background:var(--bg4);color:var(--text3);padding:1px 7px;border-radius:10px;margin-left:5px;border:1px solid var(--border);">salió</span>':
               ramp?'<span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 7px;border-radius:10px;margin-left:5px;">rampa</span>':'';
@@ -1104,7 +1104,7 @@ names.forEach(n=>{
       <div class="prog-fill" style="width:${pct?Math.min(pct,100):0}%;background:${pct!==null?ac(pct):'#bbb'};"></div>
       ${q1pct?`<div class="prog-marker" style="left:${q1pct}%;"></div>`:''}
     </div>
-    <div class="prog-hint">Línea roja = dónde deberías estar al cierre de Q1</div>
+    <div class="prog-hint">Línea roja = dónde deberías estar al cierre de Q3 (75% de la meta anual)</div>
   </div>`;
 });
 
@@ -1392,7 +1392,7 @@ document.getElementById('g-pipe-sub').textContent = 'Cobertura ' + cov + 'x meta
 document.getElementById('g-fc-val').textContent = fmt(totalFc);
 document.getElementById('g-fc-sub').innerHTML = 'CW+F = <strong>' + fmt(totalCw+totalFc) + ' (' + fmtP(Math.round((totalCw+totalFc)/META_EA*100)) + ')</strong>';
 document.getElementById('g-cw-val').textContent = fmt(totalCw);
-document.getElementById('g-cw-sub').innerHTML = '<span style="color:var(--amber);">' + fmtP(attA) + ' del año · Q1 en curso</span>';
+document.getElementById('g-cw-sub').innerHTML = '<span style="color:var(--amber);">' + fmtP(attA) + ' del año · Q3 cerrando</span>';
 
 new Chart(document.getElementById('sqoCntChart'),{type:'bar',
   data:{labels:names,datasets:[{label:'SQOs',data:names.map(n=>DATA.sqoQ1_count[n]),backgroundColor:'#3a6fd4',borderRadius:4}]},
@@ -1863,7 +1863,7 @@ const CW_Q2_DEALS = [
   {d:'Promaizmar',               ae:'Karla',   a:89000,   m:'Abr'},
   // Mayo — New Logo
   {d:'Operadora FIJI',           ae:'Rossana', a:323000,  m:'May'},
-  {d:'Pulppo',                   ae:'Rossana', a:95000,   m:'May'},
+  {d:'Pulppo',                   ae:'Rossana', a:22500,   m:'May'},
   {d:'Puerto Aventuras',         ae:'Rossana', a:54500,   m:'May'},
   {d:'mdoscapital',              ae:'Rossana', a:58000,   m:'May'},
   {d:'Smart Payment Abr',        ae:'Rossana', a:40000,   m:'May'},
@@ -1874,10 +1874,9 @@ const CW_Q2_DEALS = [
   // Junio — New Logo
   {d:'PIEK',                     ae:'Karla',   a:46000,   m:'Jun'},
   {d:'El Aguila Cía. Seguros',   ae:'Ernesto', a:2139000, m:'Jun'},
-  {d:'Inverlar.cloudpos',        ae:'Karla',   a:134000,  m:'Jun'},
-  {d:'CMX 360',                  ae:'Rossana', a:56000,   m:'Jun'},
   {d:'SECOPLA Control de Plagas',ae:'Ilse',    a:40000,   m:'Jun'},
-  {d:'DiDi Global',              ae:'Karla',   a:5000000, m:'Jun'},
+  {d:'IAL (Prestamás Nómina)',   ae:'Ilse',    a:34600,   m:'Jun'},
+  {d:'DiDi Global',              ae:'Karla',   a:5100000, m:'Jun'},
 ];
 
 function renderQ2Results() {
